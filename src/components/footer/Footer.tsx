@@ -10,13 +10,13 @@ function Footer() {
                     <Row>
 
                         <div className="col-lg-3 col-md-6 footer-contact">
-                            <h3>Medilab</h3>
+                            <h3>Clinic</h3>
                             <p>
                                 1022/3 Hà Hoàng Hổ <br />
                                 Phú Hòa, Long Xuyên<br />
                                 An Giang <br /><br />
                                 <strong>Phone:</strong> +0123 456 789<br />
-                                <strong>Email:</strong> phongkhamdakhoa@example.com<br />
+                                <strong>Email:</strong> dqbao_21th@student.agu.edu.vn<br />
                             </p>
                         </div>
 
@@ -56,12 +56,9 @@ function Footer() {
             <Container className="d-md-flex py-4">
 
                 <div className="me-md-auto text-center text-md-start w-100">
-                    <div className="copyright">
-                        &copy; Copyright <strong><span>PhongKhamDaKhoa</span></strong>. All Rights Reserved
+                    <div className="w-100 text-center">
+                        &copy; Copyright <strong><span>Dang Quoc Bao - DTH205716 - DH21TH3</span></strong>. All Rights Reserved
                     </div>
-                    {/* <div className="credits">
-                        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-                    </div> */}
                 </div>
                 <div className="social-links d-flex justity-content-between text-center text-md-right pt-3 pt-md-0">
                     <a href="#" className="twitter"><BsTwitter /></a>

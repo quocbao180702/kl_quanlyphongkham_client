@@ -5,17 +5,26 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Pagination } from 'swiper/modules';
 import { useGetAllBlogsQuery, useGetLastestBlogQuery } from "@/graphql-definition/graphql";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getUrlImage } from "@/utils/uploadFile";
 import Blog from "./[id]/page";
 import dayjs from "dayjs";
+import { LanguageContext } from "@/provider/LanguageProvider";
+import { BlogPage as vn } from "@/locales/vi/blogs.page";
+import { BlogPage as en } from "@/locales/en/blogs.page";
+
 
 function Blogs() {
+    const { languageState } = useContext(LanguageContext);
     const title = "Blogs"
-    /*     const arrayBlogs = [1, 2, 3, 4]
-     */
     const [take, setTake] = useState(2);
     const [skip, setSkip] = useState(0);
+
+    const [t, setT] = useState(languageState === 'vn' ? vn : en)
+
+    useEffect(() => {
+        setT(languageState === 'vn' ? vn : en)
+    }, [languageState])
 
     const { data: dataBlog, error: errorBlog, loading: loadingBlog } = useGetAllBlogsQuery({
         variables: {
@@ -45,19 +54,20 @@ function Blogs() {
                 <Row>
                     <Col lg={9}>
                         <Row className="mb-3">
-                            <h3 className="text-uppercase mb-3">BlOG NỔI BẬT</h3>
+                            <h3 className="text-uppercase mb-3">{t?.blogTitle}</h3>
                             <div>
                                 {BlogLastest && BlogLastest?.getLastestBlog.map((blog) => {
-                                    return(
-                                    <div className="card bg-light text-white p-0">
-                                        <Image src={getUrlImage(blog?.hinhanh)} className="card-img" alt="..." />
-                                        <div className="card-img-overlay">
-                                            <h5 className="card-title text-dark">{blog?.tieude}</h5>
-                                            <p className="card-text text-dark">{blog?.tomtat}</p>
-                                            <p className="card-text text-dark">{dayjs(blog?.ngaytao).format("YYYY-MM-DD")}</p>
+                                    return (
+                                        <div className="card bg-light text-white p-0">
+                                            <Image src={getUrlImage(blog?.hinhanh)} className="card-img" alt="..." />
+                                            <div className="card-img-overlay">
+                                                <h5 className="card-title text-dark">{blog?.tieude}</h5>
+                                                <p className="card-text text-dark">{blog?.tomtat}</p>
+                                                <p className="card-text text-dark">{dayjs(blog?.ngaytao).format("YYYY-MM-DD")}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                )})}
+                                    )
+                                })}
                             </div>
                         </Row>
                         <Row className="pb-3">
@@ -98,18 +108,18 @@ function Blogs() {
                                 <Form className="d-flex">
                                     <Form.Control
                                         type="search"
-                                        placeholder="Search"
+                                        placeholder={`${t?.blogSearch}`}
                                         className="me-2"
                                         aria-label="Search"
                                     />
                                     <Button>
-                                        Search
+                                        {t?.blogSearch}
                                     </Button>
                                 </Form>
                             </div>
                         </div>
                         <div className="mb-5">
-                            <h4 className="text-uppercase mb-4" style={{ letterSpacing: "5px" }}>Recent Blog</h4>
+                            <h4 className="text-uppercase mb-4" style={{ letterSpacing: "5px" }}>{t?.blogRecent}</h4>
                             {dataBlogLastes && dataBlogLastes.getLastestBlog.map(blog => {
                                 return (
                                     <a key={blog?._id} className="d-flex align-items-center text-decoration-none bg-white mb-3" href="">
@@ -123,7 +133,7 @@ function Blogs() {
                             })}
                         </div>
                         <div className="mb-5">
-                            <h4 className="text-uppercase mb-4" style={{ letterSpacing: "5px" }}>Tag Cloud</h4>
+                            <h4 className="text-uppercase mb-4" style={{ letterSpacing: "5px" }}>Tag</h4>
                             <div className="d-flex flex-wrap m-n1">
                                 <a href="" className="btn btn-light m-1">COVID</a>
                                 <a href="" className="btn btn-light m-1">PHỔI</a>

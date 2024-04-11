@@ -1,9 +1,31 @@
-import { ReactNode, useState } from "react"
+import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
 
-const defaultLanguage = 'vi'
-
-const LanguageContextProvider = ({children}: {children: ReactNode}) => {
-    const [languageState, setLangugeSate] = useState(defaultLanguage);
-
-    
+interface ILanguageContext{
+    languageState: string,
+    setLanguageState: Dispatch<SetStateAction<string>>;
 }
+
+export const LanguageContext = createContext<ILanguageContext>({
+    languageState: 'vn',
+    setLanguageState: () => {}
+});
+
+
+
+function LanguageProvider({children}: {children: ReactNode}) {
+    const defaultLanguage = 'vn'
+    const [languageState, setLanguageState] = useState(defaultLanguage);
+
+    const languageContextData = {
+        languageState,
+        setLanguageState,
+    }
+
+    return(
+        <LanguageContext.Provider value={languageContextData}>
+            {children}
+        </LanguageContext.Provider>
+    )
+}
+
+export default LanguageProvider;

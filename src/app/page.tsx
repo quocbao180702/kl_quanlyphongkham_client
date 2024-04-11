@@ -11,11 +11,23 @@ import { FaUserDoctor } from "react-icons/fa6";
 import { FaAward, FaFlask, FaHospital } from "react-icons/fa";
 import dayjs from "dayjs";
 import { getUrlImage } from "@/utils/uploadFile";
+import { useContext, useEffect, useState } from "react";
+import { LanguageContext } from "@/provider/LanguageProvider";
+import { HomePage as vn } from "@/locales/vi/home.page";
+import { HomePage as en} from "@/locales/en/home.page";
 
 
 export default function Home() {
 
+  const {languageState} = useContext(LanguageContext);
+  const [t, setT] = useState(languageState === 'vn' ? vn : en)
+
+  useEffect(() => {
+    setT(languageState === 'vn' ? vn : en)
+  }, [languageState])
+
   const { data, loading, error } = useGetCountUserQuery();
+
   console.log(data);
 
   const { data: dataBlogLastes, error: errorBlogsLastest, loading: loadingBlogsLastest } = useGetLastestBlogQuery({
@@ -23,6 +35,8 @@ export default function Home() {
       limit: 3
     }
   })
+
+
 
   const arrayDepartment = [1, 2, 3, 4, 5, 6]
   return (<>
@@ -46,7 +60,7 @@ export default function Home() {
             <div className="count-box">
               <FaUserDoctor className="icon" />
               <CountUp start={0} end={10} className="purecounter" />
-              <p className="title">Doctors</p>
+              <p className="title">{t?.homeDotors}</p>
             </div>
           </div>
 
@@ -54,7 +68,7 @@ export default function Home() {
             <div className="count-box">
               <FaHospital className="icon" />
               <CountUp start={0} end={10} className="purecounter" />
-              <p className="title">Departments</p>
+              <p className="title">{t?.homeDeparment}</p>
             </div>
           </div>
 
@@ -62,7 +76,7 @@ export default function Home() {
             <div className="count-box">
               <FaFlask className="icon" />
               <CountUp start={0} end={10} className="purecounter" />
-              <p className="title">Research Labs</p>
+              <p className="title">{t?.homeRoom}</p>
             </div>
           </div>
 
@@ -70,7 +84,7 @@ export default function Home() {
             <div className="count-box">
               <FaAward className="icon" />
               <CountUp start={0} end={10} className="purecounter" />
-              <p className="title">Awards</p>
+              <p className="title">{t?.homeAward}</p>
             </div>
           </div>
 
@@ -82,7 +96,7 @@ export default function Home() {
       <Row className="mb-3 w-100">
         <Row className="justify-content-center">
           <Col className="py-3">
-            <h1 className="text-center">OUR DEPARTMENTS</h1>
+            <h1 className="text-center">{t?.homePhong}</h1>
           </Col>
         </Row>
         <Row>
@@ -93,7 +107,7 @@ export default function Home() {
                   <div className="icon-box text-center"><a className="text-decoration-none" href="#!">
                     <Image className="mb-3 deparment-icon" src="/assets/images/gallery/cardiac.png" alt="..." />
                     <Image className="mb-3 deparment-icon-hover" src="/assets/images/gallery/cardiac.svg" alt="..." />
-                    <p className="fs-1 fs-xxl-2 text-center">Phổi</p>
+                    <p className="fs-1 fs-xxl-2 text-center">{t?.homeLung}</p>
                   </a></div>
                 </div>
               </div>
@@ -106,7 +120,7 @@ export default function Home() {
                   <div className="icon-box text-center"><a className="text-decoration-none" href="#!">
                     <Image className="mb-3 deparment-icon" src="/assets/images/gallery/eye-care.png" alt="..." />
                     <Image className="mb-3 deparment-icon-hover" src="/assets/images/gallery/eye-care.svg" alt="..." />
-                    <p className="fs-1 fs-xxl-2 text-center">Mắt</p>
+                    <p className="fs-1 fs-xxl-2 text-center">{t?.homeEyes}</p>
                   </a></div>
                 </div>
               </div>
@@ -119,7 +133,7 @@ export default function Home() {
                   <div className="icon-box text-center"><a className="text-decoration-none" href="#!">
                     <Image className="mb-3 deparment-icon" src="/assets/images/gallery/osteoporosis.png" alt="..." />
                     <Image className="mb-3 deparment-icon-hover" src="/assets/images/gallery/osteoporosis.svg" alt="..." />
-                    <p className="fs-1 fs-xxl-2 text-center">Xương Khớp</p>
+                    <p className="fs-1 fs-xxl-2 text-center">{t?.homeOsteoarthritis}</p>
                   </a></div>
                 </div>
               </div>
@@ -132,7 +146,7 @@ export default function Home() {
                   <div className="icon-box text-center"><a className="text-decoration-none" href="#!">
                     <Image className="mb-3 deparment-icon" src="/assets/images/gallery/neurology.png" alt="..." />
                     <Image className="mb-3 deparment-icon-hover" src="/assets/images/gallery/neurology.svg" alt="..." />
-                    <p className="fs-1 fs-xxl-2 text-center">Não</p>
+                    <p className="fs-1 fs-xxl-2 text-center">{t?.homebrain}</p>
                   </a></div>
                 </div>
               </div>
@@ -143,7 +157,7 @@ export default function Home() {
       <Row className="mb-5">
         <Row className="justify-content-center">
           <Col className="py-3">
-            <h1 className="text-center">ĐẶT LỊCH NGAY</h1>
+            <h1 className="text-center">{t?.homeDatlich}</h1>
           </Col>
         </Row>
         <Row>
@@ -189,7 +203,7 @@ export default function Home() {
       <Row className="mb-5">
         <Row className="justify-content-center">
           <Col className="py-3">
-            <h1 className="text-center">OUR DOCTOR</h1>
+            <h1 className="text-center">{t?.homeBacSi}</h1>
           </Col>
         </Row>
         <Row className="justify-content-between">
@@ -240,7 +254,7 @@ export default function Home() {
       <Row className="mb-5">
         <Row className="justify-content-center">
           <Col className="py-3">
-            <h1 className="text-center">Danh Sách Blog</h1>
+            <h1 className="text-center">{t?.homeBlog}</h1>
           </Col>
         </Row>
         <Row>
