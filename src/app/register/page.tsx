@@ -3,7 +3,7 @@ import { Button, Container, Form, Row } from "react-bootstrap";
 function Register() {
     return (
         <Container>
-            <Row className="mt-5 justify-content-center">
+            <Row className="d-flex justify-content-center align-items-center" style={{ height: "700px" }}>
                 <div className="col-md-6 pt-4 mt-3 mt-md-0">
                     <div className="card border-0 shadow">
                         <div className="card-body">

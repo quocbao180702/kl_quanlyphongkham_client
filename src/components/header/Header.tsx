@@ -11,7 +11,7 @@ import { HeaderCompomnent as en } from '@/locales/en/common.component';
 function Header() {
     const { languageState, setLanguageState } = useContext(LanguageContext);
     const { isAuthenticated, profile, logoutClient } = useContext(AuthContext);
-    const [t, setT ] = useState(languageState === 'vn' ? vn : en);
+    const [t, setT] = useState(languageState === 'vn' ? vn : en);
 
     const handleLogout = () => {
         logoutClient();
@@ -20,9 +20,9 @@ function Header() {
     useEffect(() => {
         setT(languageState === 'vn' ? vn : en)
     }, [languageState])
-    
+
     const [selectedItem, setSelectedItem] = useState({ label: 'Tiếng Việt', code: 'vn' });
-    
+
     const handleSelect = (code: string | null) => {
         if (code !== null) {
             let label = 'Tiếng Việt';
@@ -33,19 +33,19 @@ function Header() {
             setLanguageState(code)
         }
     };
-    
+
 
     return (
         <header className="mb-3">
-            <Navbar style={{ backgroundColor: "#1da1f2" }} data-bs-theme="dark" className="navbar-custom">
+            <Navbar /* style={{ backgroundColor: "#1da1f2" }} */ data-bs-theme="dark" className="hover navbar-custom">
                 <Container>
-                    <Navbar.Brand href="#home">Clinic</Navbar.Brand>
+                    <Navbar.Brand href="#home" className='text-light text-uppercase fw-bold'>CLINIC</Navbar.Brand>
                     <Nav className="jutify-content-center " >
-                        <Nav.Link as={Link} href="/" className="text-light text-uppercase font-weight-bold">{t?.headerTrangChu}</Nav.Link>
-                        <Nav.Link as={Link} href="/vechungtoi" className="text-light text-uppercase font-weight-bold">{t?.headerVeChungToi}</Nav.Link>
-                        <Nav.Link as={Link} href="/tuyendung" className="text-light text-uppercase font-weight-bold">{t?.headerTuyenDung}</Nav.Link>
-                        <Nav.Link as={Link} href="/datlich" className="text-light text-uppercase font-weight-bold">{t?.headerDatlich}</Nav.Link>
-                        <Nav.Link as={Link} href="/blogs" className="text-light text-uppercase font-weight-bold">{t?.headerBlog}</Nav.Link>
+                        <Nav.Link as={Link} href="/" className="text-uppercase fw-bold">{t?.headerTrangChu}</Nav.Link>
+                        <Nav.Link as={Link} href="/vechungtoi" className="text-uppercase fw-bold">{t?.headerVeChungToi}</Nav.Link>
+                        <Nav.Link as={Link} href="/tuyendung" className="text-uppercase fw-bold">{t?.headerTuyenDung}</Nav.Link>
+                        <Nav.Link as={Link} href="/datlich" className="text-uppercase fw-bold">{t?.headerDatlich}</Nav.Link>
+                        <Nav.Link as={Link} href="/blogs" className="text-uppercase fw-bold">{t?.headerBlog}</Nav.Link>
                     </Nav>
                     <div className="d-flex justify-content-between align-items-center">
                         <DropdownButton
@@ -64,7 +64,7 @@ function Header() {
                             (
                                 <Dropdown data-bs-theme="light">
                                     <Dropdown.Toggle id="dropdown-button-light-example1" style={{ backgroundColor: "inherit" }}>
-                                        <Image src={`${profile?.avatar?.url}`} style={{ width: "30px", height: "30px", borderRadius: "5px" }} />
+                                        <Image src={`${profile?.avatar?.url || profile?.user?.avatar?.url}`} style={{ width: "30px", height: "30px", borderRadius: "5px" }} />
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
@@ -82,7 +82,7 @@ function Header() {
                                 <div className="d-flex justify-content-between align-items-center" style={{ marginLeft: '10px' }}> {/* Thêm margin left */}
                                     <Button variant="outline-secondary">
                                         <Link href="/login" className=" link-underline link-underline-opacity-0 text-light">
-                                           {t?.headerLogin}
+                                            {t?.headerLogin}
                                         </Link>
                                     </Button>
                                     <Button variant="outline-secondary">

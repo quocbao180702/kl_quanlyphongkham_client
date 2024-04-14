@@ -58,6 +58,11 @@ query OnlyUser{
       cccd
       bhyt
       user{
+        avatar{
+          url
+          fileName
+          type
+        }
         email
       }
     }

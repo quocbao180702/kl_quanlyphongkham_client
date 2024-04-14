@@ -2,7 +2,7 @@
 import { useLoginMutation } from "@/graphql-definition/graphql";
 import { setJwtToken } from "@/utils/jwt";
 import { useContext, useEffect } from "react";
-import { Button, Container, Form, InputGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CiLock, CiMail } from "react-icons/ci";
 import { FaFacebook, FaGoogle, FaTwitter } from "react-icons/fa6";
@@ -10,6 +10,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { useRouter } from 'next/navigation';
 import { AuthContext } from "../../provider/AuthContextProvider";
 import { IoEyeSharp } from "react-icons/io5";
+import { RiLockPasswordLine } from 'react-icons/ri';
 
 function Login() {
 
@@ -42,29 +43,25 @@ function Login() {
     }
 
     const handleSubmitGoogle = () => {
-        
+
     }
 
     return (
-        <Container className="py-4 my-4">
-            <Row className="justify-content-center">
-                <div className="col-md-6">
-                    <div className="card border-0 shadow">
-                        <div className="card-body">
+        <Container className="py-4 my-4 mb-5">
+            <Row className="d-flex justify-content-center align-items-center" style={{height: "700px"}}>
+                <Col md={6}>
+                    <Card border="0" className="shadow">
+                        <Card.Body>
                             <h2 className="h4 mb-1">Đăng nhập</h2>
-                            <div className="py-3">
-                                <div className="d-inline-block align-items-center">
-                                    {/* <a className="btn-social bs-google me-2 mb-2" href="#" data-bs-toggle="tooltip" title="Đăng nhập với Google">
-                                        <FaGoogle size={28} color="red" />
-                                    </a> */}
-                                    <Button className="btn bsb-btn-xl btn-outline-primary" onClick={handleSubmitGoogle}>
-                                        <FaGoogle size={28} />
-                                        <span className="ms-2 fs-6">Google</span>
-                                    </Button>
-                                    <a className="btn-social bs-facebook me-2 mb-2" href="#" data-bs-toggle="tooltip" title="Đăng nhập với Facebook">
-                                        <FaFacebook size={28} />
-                                    </a>
-                                </div>
+                            <div className="social-login">
+                                <Button className="btn-social bs-google bg-light border" onClick={handleSubmitGoogle}>
+                                    <FaGoogle size={28} />
+                                    <span className="ms-2 fs-6">Google</span>
+                                </Button>
+                                <Button className="btn-social bs-facebook">
+                                    <FaFacebook size={28} />
+                                    <span className="ms-2 fs-6">FaceBook</span>
+                                </Button>
                             </div>
                             <hr />
                             <h3 className="fs-base pt-4 pb-2">Hoặc sử dụng thông tin đã có</h3>
@@ -77,27 +74,27 @@ function Login() {
                                 </InputGroup>
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>
-                                        <CiLock className="text-muted" />
+                                        <RiLockPasswordLine className="text-muted" />
                                     </InputGroup.Text>
-                                    <Form.Control type="password" placeholder="Password" {...register('[password')} required />
+                                    <Form.Control type="password" placeholder="Password" {...register('password')} required />
                                 </InputGroup>
-                                <div className="d-flex flex-wrap justify-content-between">
-                                    <Form.Check className="form-check">
+                                <div className="d-flex flex-wrap justify-content-between align-items-center">
+                                    <Form.Check>
                                         <Form.Check.Input type="checkbox" id="remember_me" defaultChecked />
                                         <Form.Check.Label htmlFor="remember_me">Ghi nhớ đăng nhập</Form.Check.Label>
                                     </Form.Check>
-                                    <a className="nav-link-inline fs-sm" href="#">Quên mật khẩu?</a>
+                                    <a className="fs-sm" href="#">Quên mật khẩu?</a>
                                 </div>
                                 <hr className="mt-4" />
-                                <Form.Group className="text-end pt-4">
-                                    <Button className="btn btn-primary" type="submit"><i className="ci-sign-in me-2 ms-n21"></i>Đăng nhập</Button>
-                                </Form.Group>
+                                <div className="text-end pt-4">
+                                    <Button className="btn-primary" type="submit"><i className="ci-sign-in me-2 ms-n1"></i>Đăng nhập</Button>
+                                </div>
                             </Form>
-                        </div>
-                    </div>
-                </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
             </Row>
-        </Container >
+        </Container>
     );
 }
 

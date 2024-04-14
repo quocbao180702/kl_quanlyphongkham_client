@@ -211,39 +211,39 @@ export default function Home() {
             <Col md={4} className="mb-8 mb-md-0">
               <div className="card card-span h-100 shadow">
                 <div className="card-body d-flex flex-column flex-center py-5">
-                  <Image src="/assets/images/gallery/bg-about-us.png" style={{ width: "100%" }} alt="..." />
-                  <h5 className="mt-3">Anita Deshai</h5>
-                  <p className="mb-0 fs-xxl-1">Pediatrics, Gochi Medicine</p>
-                  <p className="text-600 mb-0">Florida, United States</p>
-                  <p className="text-600 mb-4">10 years experience</p>
+                  <Image src="/assets/images/gallery/doctor1s.jpg" style={{ width: "100%" }} alt="..." />
+                  <h5 className="mt-3">Nguyễn Quang Hải</h5>
+                  <p className="mb-0 fs-xxl-1">Chuyên Khoa Tim Mạch</p>
+                  <p className="text-600 mb-0">Long Xuyên - An Giang</p>
+                  <p className="text-600 mb-4">10 năm kinh nghiệm</p>
                   <div className="text-center">
-                    <button className="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                    <button className="btn btn-outline-secondary rounded-pill" type="submit">Xem</button>
                   </div>
                 </div>
               </div>
             </Col>
             <Col md={4} className="mb-8 mb-md-0">
               <div className="card card-span h-100 shadow">
-                <div className="card-body d-flex flex-column flex-center py-5"><img src="/assets/images/gallery/bg-about-us.png" style={{ width: "100%" }} alt="..." />
-                  <h5 className="mt-3">Jane Flakis</h5>
-                  <p className="mb-0 fs-xxl-1">Gynaecology, Abenka Care</p>
-                  <p className="text-600 mb-0">Melbourne, Australia</p>
-                  <p className="text-600 mb-4">12 years experience</p>
+                <div className="card-body d-flex flex-column flex-center py-5"><img src="/assets/images/gallery/doctor2s.jpg" style={{ width: "100%" }} alt="..." />
+                  <h5 className="mt-3">Đặng Thanh Thảo</h5>
+                  <p className="mb-0 fs-xxl-1">Cận Lâm Sàng</p>
+                  <p className="text-600 mb-0">Châu Đốc - An Giang</p>
+                  <p className="text-600 mb-4">5 năm kinh nghiệm</p>
                   <div className="text-center">
-                    <button className="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                    <button className="btn btn-outline-secondary rounded-pill" type="submit">Xem</button>
                   </div>
                 </div>
               </div>
             </Col>
             <Col md={4} className="mb-8 mb-md-0">
               <div className="card card-span h-100 shadow">
-                <div className="card-body d-flex flex-column flex-center py-5"><img src="/assets/images/gallery/bg-about-us.png" style={{ width: "100%" }} alt="..." />
-                  <h5 className="mt-3">Leo Mario</h5>
-                  <p className="mb-0 fs-xxl-1">Physiotherapy, FitCare</p>
-                  <p className="text-600 mb-0">London, England</p>
-                  <p className="text-600 mb-4">25 years experience</p>
+                <div className="card-body d-flex flex-column flex-center py-5"><img src="/assets/images/gallery/doctor3s.jpg" style={{ width: "100%" }} alt="..." />
+                  <h5 className="mt-3">Chau JiReng</h5>
+                  <p className="mb-0 fs-xxl-1">Chuyên Khoa Da Liễu</p>
+                  <p className="text-600 mb-0">Tri Tôn - An Giang</p>
+                  <p className="text-600 mb-4">10 năm kinh nghiệm</p>
                   <div className="text-center">
-                    <button className="btn btn-secondary hover-top rounded-pill border-0" type="submit">View Profile</button>
+                    <button className="btn btn-secondary hover-top rounded-pill border-0" type="submit">Xem</button>
                   </div>
                 </div>
               </div>
@@ -267,7 +267,7 @@ export default function Home() {
                       <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z"></path>
                       <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z"> </path>
                     </svg><span className="fs--1 text-900">{dayjs(blog?.ngaytao).format('YYYY-MM-DD')}</span><span className="fs--1"></span>
-                    <h5 className="font-base fs-lg-0 fs-xl-1 my-3">{blog?.tieude}</h5><a className="stretched-link" href="#!">read full article</a>
+                    <h5 className="font-base fs-lg-0 fs-xl-1 my-3">{blog?.tieude}</h5><a className="stretched-link" href="#!">xem toàn bộ</a>
                   </div>
                 </div>
               </Col>
