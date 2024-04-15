@@ -1,5 +1,5 @@
 import BreadCrum from "@/components/breadcrumb/breadcrumb";
-import { Col, Container, Row } from "react-bootstrap";
+import { Badge, Col, Container, Row } from "react-bootstrap";
 
 function TuyenDung() {
     const title = "Tuyển Dụng"
@@ -7,14 +7,54 @@ function TuyenDung() {
         <>
             <BreadCrum title={title} />
             <Container>
-                <Row className="">
-                    <Col style={{height: "500px"}} className="w-100 d-flex justify-content-center">
-                            <div className="tuyendung">
-                                <h3 className="text-uppercase">Kế Toan</h3>
-                            </div>
-                    </Col>
+                <Row className="mt-2">
+                    <div className="d-flex justify-content-between" style={{ padding: "20px", borderRadius: "5px", border: "1px solid black" }}>
+                        <h1>Kế Toán</h1>
+                        <div>
+                            <Badge bg="danger" style={{ fontSize: "20px" }}>Đang Cần Gấp</Badge>
+                        </div>
+                    </div>
                 </Row>
-                <Row>pagination</Row>
+                <Row className="mt-2">
+                    <div className="d-flex justify-content-between" style={{ padding: "20px", borderRadius: "5px", border: "1px solid black" }}>
+                        <h1>Kế Toán</h1>
+                        <div>
+                            <Badge bg="success" style={{ fontSize: "20px" }}>Đang Cần Gấp</Badge>
+                        </div>
+                    </div>
+                </Row>
+                <Row className="mt-2">
+                    <div className="d-flex justify-content-between" style={{ padding: "20px", borderRadius: "5px", border: "1px solid black" }}>
+                        <h1>Kế Toán</h1>
+                        <div>
+                            <Badge bg="success" style={{ fontSize: "20px" }}>Đang Cần Gấp</Badge>
+                        </div>
+                    </div>
+                </Row>
+                <Row className="mt-2">
+                    <div className="d-flex justify-content-between" style={{ padding: "20px", borderRadius: "5px", border: "1px solid black" }}>
+                        <h1>Kế Toán</h1>
+                        <div>
+                            <Badge bg="success" style={{ fontSize: "20px" }}>Đang Cần Gấp</Badge>
+                        </div>
+                    </div>
+                </Row>
+                <Row className="mt-2">
+                    <div className="d-flex justify-content-between" style={{ padding: "20px", borderRadius: "5px", border: "1px solid black" }}>
+                        <h1>Kế Toán</h1>
+                        <div>
+                            <Badge bg="success" style={{ fontSize: "20px" }}>Đang Cần Gấp</Badge>
+                        </div>
+                    </div>
+                </Row>
+                <Row className="mt-2">
+                    <div className="d-flex justify-content-between" style={{ padding: "20px", borderRadius: "5px", border: "1px solid black" }}>
+                        <h1>Kế Toán</h1>
+                        <div>
+                            <Badge bg="success" style={{ fontSize: "20px" }}>Đang Cần Gấp</Badge>
+                        </div>
+                    </div>
+                </Row>
             </Container>
         </>
     );
