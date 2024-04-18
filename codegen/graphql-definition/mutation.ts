@@ -8,9 +8,44 @@ mutation login($input: LoginUserInput!){
 }
 `
 
+
+const register = gql`
+mutation RegisterUser($input:  RegisterInput!){
+  registerUser(registerInput: $input){
+    _id
+  }
+}`
+
 const datlich = gql`
 mutation createDatLich($input: NewDatLichInput!){
   createDatLich(newDatLichInput: $input){
+    _id
+  }
+}`
+
+
+const updateUserbySoDienThoai = gql`
+mutation UpdateUserbySoDienThoai($user: String!, $sodienthoai: String!){
+  updateUserbySoDienThoai(user: $user, sodienthoai: $sodienthoai){
+    _id
+    user{
+      username
+    }
+    sodienthoai
+  }
+}`
+
+const updateTrangThaiThongTinUser = gql`
+mutation UpdateTrangThaiThongTinUser($id: String!){
+  updateTrangThaiThongTinUser(id: $id){
+    _id
+  }
+}`
+
+
+const createBenhNhan = gql`
+mutation CreateBenhNhan($input: NewBenhNhanInput!){
+  createBenhNhan(newBenhNhanInput: $input){
     _id
   }
 }`

@@ -327,6 +327,7 @@ export type Mutation = {
   login: LoginResponse;
   loginwithGoogleCallback: LoginResponse;
   logout?: Maybe<Scalars['Boolean']['output']>;
+  registerUser: Users;
   updateBacSi: BacSi;
   updateBenh: Benh;
   updateBenhNhan: BenhNhan;
@@ -352,7 +353,9 @@ export type Mutation = {
   updateTrangThaiDatLich: DatLich;
   updateTrangThaiHoaDon: Hoadon;
   updateTrangThaiKham: PhieuXacNhan;
+  updateTrangThaiThongTinUser: Users;
   updateUser: Users;
+  updateUserbySoDienThoai?: Maybe<BenhNhan>;
   updateVatTuYTe: Vattuyte;
   xulyKhoa: Users;
 };
@@ -564,6 +567,11 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationRegisterUserArgs = {
+  registerInput: RegisterInput;
+};
+
+
 export type MutationUpdateBacSiArgs = {
   input: UpdateBacSiInput;
 };
@@ -692,8 +700,19 @@ export type MutationUpdateTrangThaiKhamArgs = {
 };
 
 
+export type MutationUpdateTrangThaiThongTinUserArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
+};
+
+
+export type MutationUpdateUserbySoDienThoaiArgs = {
+  sodienthoai: Scalars['String']['input'];
+  user: Scalars['String']['input'];
 };
 
 
@@ -1030,6 +1049,13 @@ export type QueryGetUserByUsernameArgs = {
   username: Scalars['String']['input'];
 };
 
+export type RegisterInput = {
+  avatar?: InputMaybe<LinkImageInput>;
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type Sinhhieu = {
   __typename?: 'Sinhhieu';
   _id: Scalars['ID']['output'];
@@ -1053,6 +1079,7 @@ export type Sobenh = {
 export type Subscription = {
   __typename?: 'Subscription';
   newDatLich: DatLich;
+  newPhieuXacNhan: PhieuXacNhan;
 };
 
 export type Thuoc = {
@@ -1330,12 +1357,41 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', access_token: string } };
 
+export type RegisterUserMutationVariables = Exact<{
+  input: RegisterInput;
+}>;
+
+
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'Users', _id: string } };
+
 export type CreateDatLichMutationVariables = Exact<{
   input: NewDatLichInput;
 }>;
 
 
 export type CreateDatLichMutation = { __typename?: 'Mutation', createDatLich?: { __typename?: 'DatLich', _id: string } | null };
+
+export type UpdateUserbySoDienThoaiMutationVariables = Exact<{
+  user: Scalars['String']['input'];
+  sodienthoai: Scalars['String']['input'];
+}>;
+
+
+export type UpdateUserbySoDienThoaiMutation = { __typename?: 'Mutation', updateUserbySoDienThoai?: { __typename?: 'BenhNhan', _id: string, sodienthoai: string, user: { __typename?: 'Users', username: string } } | null };
+
+export type UpdateTrangThaiThongTinUserMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type UpdateTrangThaiThongTinUserMutation = { __typename?: 'Mutation', updateTrangThaiThongTinUser: { __typename?: 'Users', _id: string } };
+
+export type CreateBenhNhanMutationVariables = Exact<{
+  input: NewBenhNhanInput;
+}>;
+
+
+export type CreateBenhNhanMutation = { __typename?: 'Mutation', createBenhNhan: { __typename?: 'BenhNhan', _id: string } };
 
 export type GetCountUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1382,6 +1438,13 @@ export type GetAllToaThuocbyBenhNhanQueryVariables = Exact<{
 
 export type GetAllToaThuocbyBenhNhanQuery = { __typename?: 'Query', getAllToaThuocbyBenhNhan: Array<{ __typename?: 'Toathuoc', _id: string, soluongs: Array<number>, bhyt: boolean, ngaytaikham: any, ngaytao: any, benhnhan: { __typename?: 'BenhNhan', hoten: string, ngaysinh: any, gioitinh: boolean, diachi: string, sinhhieu?: { __typename?: 'Sinhhieu', cannang: number } | null }, bacsi: { __typename?: 'BacSi', hoten: string }, thuocs: Array<{ __typename?: 'Thuoc', tenthuoc: string }>, benhs: Array<{ __typename?: 'Benh', tenbenh: string }> }> };
 
+export type GetBenhNhanbySodienthoaiQueryVariables = Exact<{
+  sodienthoai: Scalars['String']['input'];
+}>;
+
+
+export type GetBenhNhanbySodienthoaiQuery = { __typename?: 'Query', getBenhNhanbySodienthoai?: { __typename?: 'BenhNhan', _id: string, sodienthoai: string } | null };
+
 
 export const LoginDocument = gql`
     mutation login($input: LoginUserInput!) {
@@ -1416,6 +1479,39 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const RegisterUserDocument = gql`
+    mutation RegisterUser($input: RegisterInput!) {
+  registerUser(registerInput: $input) {
+    _id
+  }
+}
+    `;
+export type RegisterUserMutationFn = Apollo.MutationFunction<RegisterUserMutation, RegisterUserMutationVariables>;
+
+/**
+ * __useRegisterUserMutation__
+ *
+ * To run a mutation, you first call `useRegisterUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerUserMutation, { data, loading, error }] = useRegisterUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRegisterUserMutation(baseOptions?: Apollo.MutationHookOptions<RegisterUserMutation, RegisterUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument, options);
+      }
+export type RegisterUserMutationHookResult = ReturnType<typeof useRegisterUserMutation>;
+export type RegisterUserMutationResult = Apollo.MutationResult<RegisterUserMutation>;
+export type RegisterUserMutationOptions = Apollo.BaseMutationOptions<RegisterUserMutation, RegisterUserMutationVariables>;
 export const CreateDatLichDocument = gql`
     mutation createDatLich($input: NewDatLichInput!) {
   createDatLich(newDatLichInput: $input) {
@@ -1449,6 +1545,110 @@ export function useCreateDatLichMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateDatLichMutationHookResult = ReturnType<typeof useCreateDatLichMutation>;
 export type CreateDatLichMutationResult = Apollo.MutationResult<CreateDatLichMutation>;
 export type CreateDatLichMutationOptions = Apollo.BaseMutationOptions<CreateDatLichMutation, CreateDatLichMutationVariables>;
+export const UpdateUserbySoDienThoaiDocument = gql`
+    mutation UpdateUserbySoDienThoai($user: String!, $sodienthoai: String!) {
+  updateUserbySoDienThoai(user: $user, sodienthoai: $sodienthoai) {
+    _id
+    user {
+      username
+    }
+    sodienthoai
+  }
+}
+    `;
+export type UpdateUserbySoDienThoaiMutationFn = Apollo.MutationFunction<UpdateUserbySoDienThoaiMutation, UpdateUserbySoDienThoaiMutationVariables>;
+
+/**
+ * __useUpdateUserbySoDienThoaiMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserbySoDienThoaiMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserbySoDienThoaiMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserbySoDienThoaiMutation, { data, loading, error }] = useUpdateUserbySoDienThoaiMutation({
+ *   variables: {
+ *      user: // value for 'user'
+ *      sodienthoai: // value for 'sodienthoai'
+ *   },
+ * });
+ */
+export function useUpdateUserbySoDienThoaiMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserbySoDienThoaiMutation, UpdateUserbySoDienThoaiMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserbySoDienThoaiMutation, UpdateUserbySoDienThoaiMutationVariables>(UpdateUserbySoDienThoaiDocument, options);
+      }
+export type UpdateUserbySoDienThoaiMutationHookResult = ReturnType<typeof useUpdateUserbySoDienThoaiMutation>;
+export type UpdateUserbySoDienThoaiMutationResult = Apollo.MutationResult<UpdateUserbySoDienThoaiMutation>;
+export type UpdateUserbySoDienThoaiMutationOptions = Apollo.BaseMutationOptions<UpdateUserbySoDienThoaiMutation, UpdateUserbySoDienThoaiMutationVariables>;
+export const UpdateTrangThaiThongTinUserDocument = gql`
+    mutation UpdateTrangThaiThongTinUser($id: String!) {
+  updateTrangThaiThongTinUser(id: $id) {
+    _id
+  }
+}
+    `;
+export type UpdateTrangThaiThongTinUserMutationFn = Apollo.MutationFunction<UpdateTrangThaiThongTinUserMutation, UpdateTrangThaiThongTinUserMutationVariables>;
+
+/**
+ * __useUpdateTrangThaiThongTinUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateTrangThaiThongTinUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTrangThaiThongTinUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTrangThaiThongTinUserMutation, { data, loading, error }] = useUpdateTrangThaiThongTinUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateTrangThaiThongTinUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTrangThaiThongTinUserMutation, UpdateTrangThaiThongTinUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTrangThaiThongTinUserMutation, UpdateTrangThaiThongTinUserMutationVariables>(UpdateTrangThaiThongTinUserDocument, options);
+      }
+export type UpdateTrangThaiThongTinUserMutationHookResult = ReturnType<typeof useUpdateTrangThaiThongTinUserMutation>;
+export type UpdateTrangThaiThongTinUserMutationResult = Apollo.MutationResult<UpdateTrangThaiThongTinUserMutation>;
+export type UpdateTrangThaiThongTinUserMutationOptions = Apollo.BaseMutationOptions<UpdateTrangThaiThongTinUserMutation, UpdateTrangThaiThongTinUserMutationVariables>;
+export const CreateBenhNhanDocument = gql`
+    mutation CreateBenhNhan($input: NewBenhNhanInput!) {
+  createBenhNhan(newBenhNhanInput: $input) {
+    _id
+  }
+}
+    `;
+export type CreateBenhNhanMutationFn = Apollo.MutationFunction<CreateBenhNhanMutation, CreateBenhNhanMutationVariables>;
+
+/**
+ * __useCreateBenhNhanMutation__
+ *
+ * To run a mutation, you first call `useCreateBenhNhanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBenhNhanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBenhNhanMutation, { data, loading, error }] = useCreateBenhNhanMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateBenhNhanMutation(baseOptions?: Apollo.MutationHookOptions<CreateBenhNhanMutation, CreateBenhNhanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateBenhNhanMutation, CreateBenhNhanMutationVariables>(CreateBenhNhanDocument, options);
+      }
+export type CreateBenhNhanMutationHookResult = ReturnType<typeof useCreateBenhNhanMutation>;
+export type CreateBenhNhanMutationResult = Apollo.MutationResult<CreateBenhNhanMutation>;
+export type CreateBenhNhanMutationOptions = Apollo.BaseMutationOptions<CreateBenhNhanMutation, CreateBenhNhanMutationVariables>;
 export const GetCountUserDocument = gql`
     query GetCountUser {
   countUser
@@ -1897,3 +2097,44 @@ export type GetAllToaThuocbyBenhNhanQueryHookResult = ReturnType<typeof useGetAl
 export type GetAllToaThuocbyBenhNhanLazyQueryHookResult = ReturnType<typeof useGetAllToaThuocbyBenhNhanLazyQuery>;
 export type GetAllToaThuocbyBenhNhanSuspenseQueryHookResult = ReturnType<typeof useGetAllToaThuocbyBenhNhanSuspenseQuery>;
 export type GetAllToaThuocbyBenhNhanQueryResult = Apollo.QueryResult<GetAllToaThuocbyBenhNhanQuery, GetAllToaThuocbyBenhNhanQueryVariables>;
+export const GetBenhNhanbySodienthoaiDocument = gql`
+    query GetBenhNhanbySodienthoai($sodienthoai: String!) {
+  getBenhNhanbySodienthoai(sodienthoai: $sodienthoai) {
+    _id
+    sodienthoai
+  }
+}
+    `;
+
+/**
+ * __useGetBenhNhanbySodienthoaiQuery__
+ *
+ * To run a query within a React component, call `useGetBenhNhanbySodienthoaiQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBenhNhanbySodienthoaiQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBenhNhanbySodienthoaiQuery({
+ *   variables: {
+ *      sodienthoai: // value for 'sodienthoai'
+ *   },
+ * });
+ */
+export function useGetBenhNhanbySodienthoaiQuery(baseOptions: Apollo.QueryHookOptions<GetBenhNhanbySodienthoaiQuery, GetBenhNhanbySodienthoaiQueryVariables> & ({ variables: GetBenhNhanbySodienthoaiQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBenhNhanbySodienthoaiQuery, GetBenhNhanbySodienthoaiQueryVariables>(GetBenhNhanbySodienthoaiDocument, options);
+      }
+export function useGetBenhNhanbySodienthoaiLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBenhNhanbySodienthoaiQuery, GetBenhNhanbySodienthoaiQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBenhNhanbySodienthoaiQuery, GetBenhNhanbySodienthoaiQueryVariables>(GetBenhNhanbySodienthoaiDocument, options);
+        }
+export function useGetBenhNhanbySodienthoaiSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetBenhNhanbySodienthoaiQuery, GetBenhNhanbySodienthoaiQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBenhNhanbySodienthoaiQuery, GetBenhNhanbySodienthoaiQueryVariables>(GetBenhNhanbySodienthoaiDocument, options);
+        }
+export type GetBenhNhanbySodienthoaiQueryHookResult = ReturnType<typeof useGetBenhNhanbySodienthoaiQuery>;
+export type GetBenhNhanbySodienthoaiLazyQueryHookResult = ReturnType<typeof useGetBenhNhanbySodienthoaiLazyQuery>;
+export type GetBenhNhanbySodienthoaiSuspenseQueryHookResult = ReturnType<typeof useGetBenhNhanbySodienthoaiSuspenseQuery>;
+export type GetBenhNhanbySodienthoaiQueryResult = Apollo.QueryResult<GetBenhNhanbySodienthoaiQuery, GetBenhNhanbySodienthoaiQueryVariables>;

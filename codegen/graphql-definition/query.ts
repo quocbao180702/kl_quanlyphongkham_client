@@ -162,7 +162,7 @@ query GetBlogbyId($id: String!){
 }`
 
 
-const getAllHoadonByBenhNhan  = gql`
+const getAllHoadonByBenhNhan = gql`
 query GetAllHoadonByBenhNhan($id: String!){
   getAllHoadonByBenhNhan(benhnhanId: $id){
     _id
@@ -219,5 +219,14 @@ query GetAllToaThuocbyBenhNhan($id: String!){
     bhyt
     ngaytaikham
     ngaytao
+  }
+}`
+
+
+const getBenhNhanbySodienthoai = gql`
+query GetBenhNhanbySodienthoai($sodienthoai: String!){
+  getBenhNhanbySodienthoai(sodienthoai: $sodienthoai){
+    _id
+    sodienthoai
   }
 }`
