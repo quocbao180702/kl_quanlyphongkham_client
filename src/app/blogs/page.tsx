@@ -58,14 +58,14 @@ function Blogs() {
                             <div>
                                 {BlogLastest && BlogLastest?.getLastestBlog.map((blog) => {
                                     return (
-                                        <div className="card bg-light text-white p-0">
+                                        <a className="card bg-light text-white p-0" href={`http://localhost:8000/blogs/${blog?._id}`}>
                                             <Image src={getUrlImage(blog?.hinhanh)} className="card-img" alt="..." />
                                             <div className="card-img-overlay">
                                                 <h5 className="card-title text-dark">{blog?.tieude}</h5>
                                                 <p className="card-text text-dark">{blog?.tomtat}</p>
                                                 <p className="card-text text-dark">{dayjs(blog?.ngaytao).format("YYYY-MM-DD")}</p>
                                             </div>
-                                        </div>
+                                        </a>
                                     )
                                 })}
                             </div>
@@ -80,7 +80,7 @@ function Blogs() {
                                                 <Image
                                                     src={getUrlImage(blog?.hinhanh)}
                                                     style={{
-                                                        width: "171px",
+                                                        width: "100%",
                                                         height: "180px",
                                                         objectFit: "fill",
                                                     }}
@@ -93,7 +93,7 @@ function Blogs() {
                                                     <span className="text-primary px-2">|</span>
                                                     <a className="text-primary text-uppercase text-decoration-none" href="">Sức Khỏe</a>
                                                 </div>
-                                                <a className="h5 m-0 text-decoration-none">{blog?.tieude}</a>
+                                                <a className="h5 m-0 text-decoration-none" href={`http://localhost:8000/blogs/${blog?._id}`}>{blog?.tieude}</a>
 
                                             </div>
                                         </div>
@@ -122,8 +122,8 @@ function Blogs() {
                             <h4 className="text-uppercase mb-4" style={{ letterSpacing: "5px" }}>{t?.blogRecent}</h4>
                             {dataBlogLastes && dataBlogLastes.getLastestBlog.map(blog => {
                                 return (
-                                    <a key={blog?._id} className="d-flex align-items-center text-decoration-none bg-white mb-3" href="">
-                                        <Image className="img-fluid" src={getUrlImage(blog?.hinhanh)} alt="" style={{ width: "100px", height: "100px", objectFit: "fill" }} />
+                                    <a key={blog?._id} className="d-flex text-decoration-none bg-white mb-3" href={`http://localhost:8000/blogs/${blog?._id}`}>
+                                        <Image className="img-fluid" src={getUrlImage(blog?.hinhanh)} alt="" style={{ width: "100%", height: "100px", objectFit: "fill" }} />
                                         <div className="pl-3">
                                             <h6 className="m-1">{blog?.tieude}</h6>
                                             <small>{dayjs(blog?.ngaytao).format('YYYY-MM-DD')}</small>
@@ -137,9 +137,6 @@ function Blogs() {
                             <div className="d-flex flex-wrap m-n1">
                                 <a href="" className="btn btn-light m-1">COVID</a>
                                 <a href="" className="btn btn-light m-1">PHỔI</a>
-                                <a href="" className="btn btn-light m-1">GAN</a>
-                                <a href="" className="btn btn-light m-1">GAN</a>
-                                <a href="" className="btn btn-light m-1">GAN</a>
                                 <a href="" className="btn btn-light m-1">GAN</a>
                             </div>
                         </div>

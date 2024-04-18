@@ -139,3 +139,85 @@ query GetLastestBlog($limit: Float!){
     ngaytao
   }
 }`
+
+const getBlogbyId = gql`
+query GetBlogbyId($id: String!){
+  getBlogbyId(id: $id){
+  	_id
+    user{
+      username
+    }
+    tieude
+    tomtat
+    noidung
+    hinhanh{
+      url
+      fileName
+      type
+    }
+    luotxem
+    ngaytao
+    kichhoat
+  }
+}`
+
+
+const getAllHoadonByBenhNhan  = gql`
+query GetAllHoadonByBenhNhan($id: String!){
+  getAllHoadonByBenhNhan(benhnhanId: $id){
+    _id
+    benhnhan{
+      hoten
+      ngaysinh
+      gioitinh
+      sodienthoai
+    }
+    trangthai
+    ngaytao
+    bhyt
+    thanhtien
+    thuocs{
+      ten
+      gia
+      soluong
+      thanhtien
+    }
+    vattuyte{
+      ten
+      gia
+      soluong
+      thanhtien
+    }
+    
+  }
+}`
+
+
+const getAllToaThuocbyBenhNhan = gql`
+query GetAllToaThuocbyBenhNhan($id: String!){
+  getAllToaThuocbyBenhNhan(benhnhanId: $id){
+    _id
+    benhnhan{
+      hoten
+      ngaysinh
+      gioitinh
+      diachi
+      sinhhieu{
+        cannang
+      }
+    }
+    bacsi{
+      hoten
+    }
+    thuocs{
+      tenthuoc
+    }
+    soluongs
+    benhs{
+      tenbenh
+    }
+    bhyt
+    ngaytaikham
+    ngaytao
+  }
+}`

@@ -41,7 +41,8 @@ function DatLich() {
                                 "sodienthoai": data?.sodienthoai,
                                 "motabenh": data?.motabenh,
                                 "ngaydat": dayjs().format("YYYY-MM-DD"),
-                                "ngaykham": ngaykham.format('YYYY-MM-DD')
+                                "ngaykham": ngaykham.format('YYYY-MM-DD'),
+                                "email": data?.email
                             }
                         }
                     })

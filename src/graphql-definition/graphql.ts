@@ -121,6 +121,7 @@ export type CreateKetquacanlamsangInput = {
 
 export type CreatePhieuXacNhanInput = {
   benhnhan: Scalars['String']['input'];
+  email: Scalars['String']['input'];
   ngaykham: Scalars['DateTime']['input'];
   ngaytao: Scalars['DateTime']['input'];
   phongs: Array<Scalars['String']['input']>;
@@ -172,6 +173,7 @@ export type DatLich = {
   __typename?: 'DatLich';
   _id: Scalars['ID']['output'];
   benhnhan: BenhNhan;
+  email: Scalars['String']['output'];
   motabenh: Scalars['String']['output'];
   ngaydat: Scalars['DateTime']['output'];
   ngaykham: Scalars['DateTime']['output'];
@@ -344,6 +346,7 @@ export type Mutation = {
   updateSobenh: Sobenh;
   updateSoluongThuoc: Thuoc;
   updateThuoc: Thuoc;
+  updateTinhTrangHoaDonCLS: Hoadonchidinhcanlamsang;
   updateToathuoc: Toathuoc;
   updateTrangThaiCanLamSang: Phieuchidinhcanlamsang;
   updateTrangThaiDatLich: DatLich;
@@ -657,6 +660,11 @@ export type MutationUpdateThuocArgs = {
 };
 
 
+export type MutationUpdateTinhTrangHoaDonClsArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type MutationUpdateToathuocArgs = {
   updateToathuocInput: UpdateToathuocInput;
 };
@@ -735,6 +743,7 @@ export type NewChuyenKhoaInput = {
 };
 
 export type NewDatLichInput = {
+  email: Scalars['String']['input'];
   hoten: Scalars['String']['input'];
   motabenh: Scalars['String']['input'];
   ngaydat: Scalars['DateTime']['input'];
@@ -860,6 +869,7 @@ export type Query = {
   getAllDichVu: Array<Dichvu>;
   getAllHoaDonPhieuCanLamSang: Array<Hoadonchidinhcanlamsang>;
   getAllHoadon: Array<Hoadon>;
+  getAllHoadonByBenhNhan: Array<Hoadon>;
   getAllLoaiCLS: Array<LoaiCanLamSang>;
   getAllNhanVien: Array<NhanVien>;
   getAllPhieuCLS: Array<Phieuchidinhcanlamsang>;
@@ -872,12 +882,14 @@ export type Query = {
   getAllSoBenh: Array<Sobenh>;
   getAllThuoc: Array<Thuoc>;
   getAllToaThuoc: Array<Toathuoc>;
+  getAllToaThuocbyBenhNhan: Array<Toathuoc>;
   getAllUsers: Array<Users>;
   getAllVatTuYTe: Array<Vattuyte>;
   getBacSibyUserId?: Maybe<BacSi>;
   getBenhNhanbyId: BenhNhan;
   getBenhNhanbySodienthoai?: Maybe<BenhNhan>;
   getBenhNhanbyUserId?: Maybe<BenhNhan>;
+  getBlogbyId: Blog;
   getLastestBlog: Array<Blog>;
   getNhanVienbyUserId?: Maybe<NhanVien>;
   getPhieuCanLamSangbyPhieuXacNhanId?: Maybe<Phieuchidinhcanlamsang>;
@@ -922,6 +934,11 @@ export type QueryGetAllDatLichbyTrangThaiArgs = {
 };
 
 
+export type QueryGetAllHoadonByBenhNhanArgs = {
+  benhnhanId: Scalars['String']['input'];
+};
+
+
 export type QueryGetAllPhieuClSbyNgayArgs = {
   ngaytao: Scalars['DateTime']['input'];
   trangthai: Scalars['Boolean']['input'];
@@ -935,6 +952,11 @@ export type QueryGetAllPhieuXacNhanDaXetNgiemArgs = {
 
 
 export type QueryGetAllSinhHieuByBenhNhanArgs = {
+  benhnhanId: Scalars['String']['input'];
+};
+
+
+export type QueryGetAllToaThuocbyBenhNhanArgs = {
   benhnhanId: Scalars['String']['input'];
 };
 
@@ -961,6 +983,11 @@ export type QueryGetBenhNhanbySodienthoaiArgs = {
 
 export type QueryGetBenhNhanbyUserIdArgs = {
   user: Scalars['String']['input'];
+};
+
+
+export type QueryGetBlogbyIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -1124,6 +1151,7 @@ export type UpdateChuyenKhoaInput = {
 };
 
 export type UpdateDatLichInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
   hoten?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
   motabenh?: InputMaybe<Scalars['String']['input']>;
@@ -1182,6 +1210,7 @@ export type UpdateNhanVienInput = {
 
 export type UpdatePhieuXacNhanInput = {
   benhnhan?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
   ngaykham?: InputMaybe<Scalars['DateTime']['input']>;
   ngaytao?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1331,6 +1360,27 @@ export type GetLastestBlogQueryVariables = Exact<{
 
 
 export type GetLastestBlogQuery = { __typename?: 'Query', getLastestBlog: Array<{ __typename?: 'Blog', _id: string, tieude: string, tomtat?: string | null, noidung: string, luotxem: number, kichhoat: boolean, ngaytao: any, user: { __typename?: 'Users', username: string }, hinhanh: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } }> };
+
+export type GetBlogbyIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetBlogbyIdQuery = { __typename?: 'Query', getBlogbyId: { __typename?: 'Blog', _id: string, tieude: string, tomtat?: string | null, noidung: string, luotxem: number, ngaytao: any, kichhoat: boolean, user: { __typename?: 'Users', username: string }, hinhanh: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } } };
+
+export type GetAllHoadonByBenhNhanQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetAllHoadonByBenhNhanQuery = { __typename?: 'Query', getAllHoadonByBenhNhan: Array<{ __typename?: 'Hoadon', _id: string, trangthai: boolean, ngaytao: any, bhyt: boolean, thanhtien: number, benhnhan: { __typename?: 'BenhNhan', hoten: string, ngaysinh: any, gioitinh: boolean, sodienthoai: string }, thuocs: Array<{ __typename?: 'DichVu', ten: string, gia: number, soluong: number, thanhtien: number }>, vattuyte: Array<{ __typename?: 'DichVu', ten: string, gia: number, soluong: number, thanhtien: number }> }> };
+
+export type GetAllToaThuocbyBenhNhanQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetAllToaThuocbyBenhNhanQuery = { __typename?: 'Query', getAllToaThuocbyBenhNhan: Array<{ __typename?: 'Toathuoc', _id: string, soluongs: Array<number>, bhyt: boolean, ngaytaikham: any, ngaytao: any, benhnhan: { __typename?: 'BenhNhan', hoten: string, ngaysinh: any, gioitinh: boolean, diachi: string, sinhhieu?: { __typename?: 'Sinhhieu', cannang: number } | null }, bacsi: { __typename?: 'BacSi', hoten: string }, thuocs: Array<{ __typename?: 'Thuoc', tenthuoc: string }>, benhs: Array<{ __typename?: 'Benh', tenbenh: string }> }> };
 
 
 export const LoginDocument = gql`
@@ -1669,3 +1719,181 @@ export type GetLastestBlogQueryHookResult = ReturnType<typeof useGetLastestBlogQ
 export type GetLastestBlogLazyQueryHookResult = ReturnType<typeof useGetLastestBlogLazyQuery>;
 export type GetLastestBlogSuspenseQueryHookResult = ReturnType<typeof useGetLastestBlogSuspenseQuery>;
 export type GetLastestBlogQueryResult = Apollo.QueryResult<GetLastestBlogQuery, GetLastestBlogQueryVariables>;
+export const GetBlogbyIdDocument = gql`
+    query GetBlogbyId($id: String!) {
+  getBlogbyId(id: $id) {
+    _id
+    user {
+      username
+    }
+    tieude
+    tomtat
+    noidung
+    hinhanh {
+      url
+      fileName
+      type
+    }
+    luotxem
+    ngaytao
+    kichhoat
+  }
+}
+    `;
+
+/**
+ * __useGetBlogbyIdQuery__
+ *
+ * To run a query within a React component, call `useGetBlogbyIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBlogbyIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBlogbyIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetBlogbyIdQuery(baseOptions: Apollo.QueryHookOptions<GetBlogbyIdQuery, GetBlogbyIdQueryVariables> & ({ variables: GetBlogbyIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBlogbyIdQuery, GetBlogbyIdQueryVariables>(GetBlogbyIdDocument, options);
+      }
+export function useGetBlogbyIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBlogbyIdQuery, GetBlogbyIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBlogbyIdQuery, GetBlogbyIdQueryVariables>(GetBlogbyIdDocument, options);
+        }
+export function useGetBlogbyIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetBlogbyIdQuery, GetBlogbyIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBlogbyIdQuery, GetBlogbyIdQueryVariables>(GetBlogbyIdDocument, options);
+        }
+export type GetBlogbyIdQueryHookResult = ReturnType<typeof useGetBlogbyIdQuery>;
+export type GetBlogbyIdLazyQueryHookResult = ReturnType<typeof useGetBlogbyIdLazyQuery>;
+export type GetBlogbyIdSuspenseQueryHookResult = ReturnType<typeof useGetBlogbyIdSuspenseQuery>;
+export type GetBlogbyIdQueryResult = Apollo.QueryResult<GetBlogbyIdQuery, GetBlogbyIdQueryVariables>;
+export const GetAllHoadonByBenhNhanDocument = gql`
+    query GetAllHoadonByBenhNhan($id: String!) {
+  getAllHoadonByBenhNhan(benhnhanId: $id) {
+    _id
+    benhnhan {
+      hoten
+      ngaysinh
+      gioitinh
+      sodienthoai
+    }
+    trangthai
+    ngaytao
+    bhyt
+    thanhtien
+    thuocs {
+      ten
+      gia
+      soluong
+      thanhtien
+    }
+    vattuyte {
+      ten
+      gia
+      soluong
+      thanhtien
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllHoadonByBenhNhanQuery__
+ *
+ * To run a query within a React component, call `useGetAllHoadonByBenhNhanQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllHoadonByBenhNhanQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllHoadonByBenhNhanQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetAllHoadonByBenhNhanQuery(baseOptions: Apollo.QueryHookOptions<GetAllHoadonByBenhNhanQuery, GetAllHoadonByBenhNhanQueryVariables> & ({ variables: GetAllHoadonByBenhNhanQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllHoadonByBenhNhanQuery, GetAllHoadonByBenhNhanQueryVariables>(GetAllHoadonByBenhNhanDocument, options);
+      }
+export function useGetAllHoadonByBenhNhanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllHoadonByBenhNhanQuery, GetAllHoadonByBenhNhanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllHoadonByBenhNhanQuery, GetAllHoadonByBenhNhanQueryVariables>(GetAllHoadonByBenhNhanDocument, options);
+        }
+export function useGetAllHoadonByBenhNhanSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllHoadonByBenhNhanQuery, GetAllHoadonByBenhNhanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllHoadonByBenhNhanQuery, GetAllHoadonByBenhNhanQueryVariables>(GetAllHoadonByBenhNhanDocument, options);
+        }
+export type GetAllHoadonByBenhNhanQueryHookResult = ReturnType<typeof useGetAllHoadonByBenhNhanQuery>;
+export type GetAllHoadonByBenhNhanLazyQueryHookResult = ReturnType<typeof useGetAllHoadonByBenhNhanLazyQuery>;
+export type GetAllHoadonByBenhNhanSuspenseQueryHookResult = ReturnType<typeof useGetAllHoadonByBenhNhanSuspenseQuery>;
+export type GetAllHoadonByBenhNhanQueryResult = Apollo.QueryResult<GetAllHoadonByBenhNhanQuery, GetAllHoadonByBenhNhanQueryVariables>;
+export const GetAllToaThuocbyBenhNhanDocument = gql`
+    query GetAllToaThuocbyBenhNhan($id: String!) {
+  getAllToaThuocbyBenhNhan(benhnhanId: $id) {
+    _id
+    benhnhan {
+      hoten
+      ngaysinh
+      gioitinh
+      diachi
+      sinhhieu {
+        cannang
+      }
+    }
+    bacsi {
+      hoten
+    }
+    thuocs {
+      tenthuoc
+    }
+    soluongs
+    benhs {
+      tenbenh
+    }
+    bhyt
+    ngaytaikham
+    ngaytao
+  }
+}
+    `;
+
+/**
+ * __useGetAllToaThuocbyBenhNhanQuery__
+ *
+ * To run a query within a React component, call `useGetAllToaThuocbyBenhNhanQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllToaThuocbyBenhNhanQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllToaThuocbyBenhNhanQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetAllToaThuocbyBenhNhanQuery(baseOptions: Apollo.QueryHookOptions<GetAllToaThuocbyBenhNhanQuery, GetAllToaThuocbyBenhNhanQueryVariables> & ({ variables: GetAllToaThuocbyBenhNhanQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllToaThuocbyBenhNhanQuery, GetAllToaThuocbyBenhNhanQueryVariables>(GetAllToaThuocbyBenhNhanDocument, options);
+      }
+export function useGetAllToaThuocbyBenhNhanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllToaThuocbyBenhNhanQuery, GetAllToaThuocbyBenhNhanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllToaThuocbyBenhNhanQuery, GetAllToaThuocbyBenhNhanQueryVariables>(GetAllToaThuocbyBenhNhanDocument, options);
+        }
+export function useGetAllToaThuocbyBenhNhanSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllToaThuocbyBenhNhanQuery, GetAllToaThuocbyBenhNhanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllToaThuocbyBenhNhanQuery, GetAllToaThuocbyBenhNhanQueryVariables>(GetAllToaThuocbyBenhNhanDocument, options);
+        }
+export type GetAllToaThuocbyBenhNhanQueryHookResult = ReturnType<typeof useGetAllToaThuocbyBenhNhanQuery>;
+export type GetAllToaThuocbyBenhNhanLazyQueryHookResult = ReturnType<typeof useGetAllToaThuocbyBenhNhanLazyQuery>;
+export type GetAllToaThuocbyBenhNhanSuspenseQueryHookResult = ReturnType<typeof useGetAllToaThuocbyBenhNhanSuspenseQuery>;
+export type GetAllToaThuocbyBenhNhanQueryResult = Apollo.QueryResult<GetAllToaThuocbyBenhNhanQuery, GetAllToaThuocbyBenhNhanQueryVariables>;
