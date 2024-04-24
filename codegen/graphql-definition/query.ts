@@ -64,6 +64,7 @@ query OnlyUser{
           type
         }
         email
+        role
       }
     }
     ... on NhanVien{
@@ -229,4 +230,24 @@ query GetBenhNhanbySodienthoai($sodienthoai: String!){
     _id
     sodienthoai
   }
+}`
+
+const CountNhanVien = gql`
+query CountNhanVien{
+  CountNhanVien
+}`
+
+const CountPhong = gql`
+query CountPhong{
+  CountPhong
+}`
+
+const CountChuyenKhoa = gql`
+query CountChuyenKhoa{
+  CountChuyenKhoa
+}`
+
+const CountBacSi = gql`
+query CountBacSi{
+  CountBacSi
 }`

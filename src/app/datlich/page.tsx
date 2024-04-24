@@ -89,15 +89,7 @@ function DatLich() {
                                     <Form.Control className="form-control form-livedoc-control" type="text" placeholder="Số Điện Thoại" {...register('sodienthoai')} />
                                 </Form.Group>
                                 <Form.Group className="col-md-6">
-                                    {/* <Form.Label className="form-label visually-hidden sr-only">Category</Form.Label>
-                                    <Form.Select className="form-select"  {...register("loai")}>
-                                        <option value={""}> Category</option>
-                                        <option value={"1"}> Category One</option>
-                                        <option value={"2"}> Category Two</option>
-                                        <option value={"3"}> Category Three</option>
-                                    </Form.Select> */}
-                                    <Form.Control type="date" value={ngaykham.format('YYYY-MM-DD')} onChange={(e) => handleDateChange(dayjs(e.target.value))} />
-                                    {/* <DatePickerValue label={'Ngày Sinh'} value={ngaykham} onChange={handleDateChange} /> */}
+                                    <Form.Control type="date" min={dayjs().format('YYYY-MM-DD')} value={ngaykham.format('YYYY-MM-DD')} onChange={(e) => handleDateChange(dayjs(e.target.value))} />
                                 </Form.Group>
                                 <Form.Group className="col-md-6">
                                     <Form.Label className="form-label visually-hidden sr-only" >Email</Form.Label>

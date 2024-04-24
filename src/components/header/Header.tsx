@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { LanguageContext } from '@/provider/LanguageProvider';
 import { HeaderCompomnent as vn } from '@/locales/vi/common.component';
 import { HeaderCompomnent as en } from '@/locales/en/common.component';
+import { UserRole } from '@/graphql-definition/graphql';
 
 function Header() {
     const { languageState, setLanguageState } = useContext(LanguageContext);
@@ -68,9 +69,11 @@ function Header() {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1" active>
+
+                                        {(profile?.user?.role ===  UserRole.User) && (
+                                        <Dropdown.Item href="/profile" active>
                                             Hồ Sơ Cá Nhân
-                                        </Dropdown.Item>
+                                        </Dropdown.Item>)}
                                         <Dropdown.Item href="/lichsu/hoadon">Hoá Đơn</Dropdown.Item>
                                         <Dropdown.Item href="/lichsu/toathuoc">Toa Thuốc</Dropdown.Item>
                                         <Dropdown.Divider />

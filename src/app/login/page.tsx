@@ -53,7 +53,7 @@ function Login() {
                     <Card border="0" className="shadow">
                         <Card.Body>
                             <h2 className="h4 mb-1">Đăng nhập</h2>
-                            <div className="social-login">
+                            {/* <div className="social-login">
                                 <Button className="btn-social bs-google bg-light border" onClick={handleSubmitGoogle}>
                                     <FaGoogle size={28} />
                                     <span className="ms-2 fs-6">Google</span>
@@ -62,7 +62,7 @@ function Login() {
                                     <FaFacebook size={28} />
                                     <span className="ms-2 fs-6">FaceBook</span>
                                 </Button>
-                            </div>
+                            </div> */}
                             <hr />
                             <h3 className="fs-base pt-4 pb-2">Hoặc sử dụng thông tin đã có</h3>
                             <Form onSubmit={handleSubmit(onSubmit)} className="needs-validation">

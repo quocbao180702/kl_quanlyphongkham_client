@@ -1,5 +1,5 @@
 "use client"
-import { useGetCountUserQuery, useGetLastestBlogQuery } from "@/graphql-definition/graphql";
+import { useCountBacSiQuery, useCountChuyenKhoaQuery, useCountNhanVienQuery, useCountPhongQuery, useGetCountUserQuery, useGetLastestBlogQuery } from "@/graphql-definition/graphql";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -36,6 +36,11 @@ export default function Home() {
     }
   })
 
+  const {data: dataBacSi, loading: loadingBacSi, error: errorBacSi} = useCountBacSiQuery();
+  const {data: dataNhanVien, loading: loadingNhanVien, error: errorNhanVien} = useCountNhanVienQuery();
+  const {data: dataPhong, loading: loadingPhong, error: errorPhong} = useCountPhongQuery();
+  const {data: dataChuyenKhoa, loading: loadingChuyenKhoa, error: errorChuyenKhoa} = useCountChuyenKhoaQuery();
+
 
 
   const arrayDepartment = [1, 2, 3, 4, 5, 6]
@@ -59,7 +64,7 @@ export default function Home() {
           <div className="col-lg-3 col-md-6">
             <div className="count-box">
               <FaUserDoctor className="icon" />
-              <CountUp start={0} end={10} className="purecounter" />
+              <CountUp start={0} end={Number(dataBacSi?.CountBacSi) + Number(dataNhanVien?.CountNhanVien)} className="purecounter" />
               <p className="title">{t?.homeDotors}</p>
             </div>
           </div>
@@ -67,7 +72,7 @@ export default function Home() {
           <div className="col-lg-3 col-md-6 mt-5 mt-md-0">
             <div className="count-box">
               <FaHospital className="icon" />
-              <CountUp start={0} end={10} className="purecounter" />
+              <CountUp start={0} end={Number(dataChuyenKhoa?.CountChuyenKhoa)} className="purecounter" />
               <p className="title">{t?.homeDeparment}</p>
             </div>
           </div>
@@ -75,7 +80,7 @@ export default function Home() {
           <div className="col-lg-3 col-md-6 mt-5 mt-lg-0">
             <div className="count-box">
               <FaFlask className="icon" />
-              <CountUp start={0} end={10} className="purecounter" />
+              <CountUp start={0} end={Number(dataPhong?.CountPhong)} className="purecounter" />
               <p className="title">{t?.homeRoom}</p>
             </div>
           </div>
@@ -154,7 +159,7 @@ export default function Home() {
           </Col>
         </Row>
       </Row>
-      <Row className="mb-5">
+      {/*<Row className="mb-5">
         <Row className="justify-content-center">
           <Col className="py-3">
             <h1 className="text-center">{t?.homeDatlich}</h1>
@@ -199,7 +204,7 @@ export default function Home() {
             </Row>
           </div>
         </Row>
-      </Row>
+    </Row>*/}
       <Row className="mb-5">
         <Row className="justify-content-center">
           <Col className="py-3">
@@ -216,9 +221,9 @@ export default function Home() {
                   <p className="mb-0 fs-xxl-1">Chuyên Khoa Tim Mạch</p>
                   <p className="text-600 mb-0">Long Xuyên - An Giang</p>
                   <p className="text-600 mb-4">10 năm kinh nghiệm</p>
-                  <div className="text-center">
+                  {/* <div className="text-center">
                     <button className="btn btn-outline-secondary rounded-pill" type="submit">Xem</button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </Col>
@@ -229,9 +234,9 @@ export default function Home() {
                   <p className="mb-0 fs-xxl-1">Cận Lâm Sàng</p>
                   <p className="text-600 mb-0">Châu Đốc - An Giang</p>
                   <p className="text-600 mb-4">5 năm kinh nghiệm</p>
-                  <div className="text-center">
+                  {/* <div className="text-center">
                     <button className="btn btn-outline-secondary rounded-pill" type="submit">Xem</button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </Col>
@@ -242,9 +247,9 @@ export default function Home() {
                   <p className="mb-0 fs-xxl-1">Chuyên Khoa Da Liễu</p>
                   <p className="text-600 mb-0">Tri Tôn - An Giang</p>
                   <p className="text-600 mb-4">10 năm kinh nghiệm</p>
-                  <div className="text-center">
+                  {/* <div className="text-center">
                     <button className="btn btn-secondary hover-top rounded-pill border-0" type="submit">Xem</button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </Col>
@@ -261,40 +266,18 @@ export default function Home() {
           {dataBlogLastes && dataBlogLastes?.getLastestBlog?.map((blog) => {
             return (
               <Col xl={4} sm={4} lg={4}>
-                <div className="card h-100 shadow card-span rounded-3"><Image className="card-img-top d-flex justify-content-center" style={{ width: "171px", height: "180px", objectFit: "fill", }} src={getUrlImage(blog?.hinhanh)} alt="news" />
+                <div className="card h-100 shadow card-span rounded-3"><Image className="card-img-top d-flex justify-content-center" style={{ width: "100%", height: "180px", objectFit: "fill", }} src={getUrlImage(blog?.hinhanh)} alt="news" />
                   <div className="card-body"><span className="fs--1 text-primary me-3">Health</span>
                     <svg className="bi bi-calendar2 me-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
                       <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z"></path>
                       <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z"> </path>
                     </svg><span className="fs--1 text-900">{dayjs(blog?.ngaytao).format('YYYY-MM-DD')}</span><span className="fs--1"></span>
-                    <h5 className="font-base fs-lg-0 fs-xl-1 my-3">{blog?.tieude}</h5><a className="stretched-link" href="#!">xem toàn bộ</a>
+                    <h5 className="font-base fs-lg-0 fs-xl-1 my-3">{blog?.tieude}</h5><a className="stretched-link" href={`http://localhost:8000/blogs/${blog?._id}`}>xem toàn bộ</a>
                   </div>
                 </div>
               </Col>
             )
           })}
-          {/* <Col xl={4} sm={4} lg={4}>
-            <div className="card h-100 shadow card-span rounded-3"><img className="card-img-top rounded-top-3" src="/assets/images/gallery/bg-about-us.png" alt="news" />
-              <div className="card-body"><span className="fs--1 text-primary me-3">Health</span>
-                <svg className="bi bi-calendar2 me-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z"></path>
-                  <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z"> </path>
-                </svg><span className="fs--1 text-900">Nov 21, 2021</span><span className="fs--1"></span>
-                <h5 className="font-base fs-lg-0 fs-xl-1 my-3">COVID-19: The Most Up-to-Date Information</h5><a className="stretched-link" href="#!">read full article</a>
-              </div>
-            </div>
-          </Col>
-          <Col xl={4} sm={4} lg={4}>
-            <div className="card h-100 shadow card-span rounded-3"><img className="card-img-top rounded-top-3" src="/assets/images/gallery/bg-about-us.png" alt="news" />
-              <div className="card-body"><span className="fs--1 text-primary me-3">Health</span>
-                <svg className="bi bi-calendar2 me-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z"></path>
-                  <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z"> </path>
-                </svg><span className="fs--1 text-900">Nov 21, 2021</span><span className="fs--1"></span>
-                <h5 className="font-base fs-lg-0 fs-xl-1 my-3">COVID-19: The Most Up-to-Date Information</h5><a className="stretched-link" href="#!">read full article</a>
-              </div>
-            </div>
-          </Col> */}
         </Row>
       </Row>
     </Container >

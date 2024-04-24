@@ -113,6 +113,7 @@ export type CreateHoadonchidinhcanlamsangInput = {
   benhnhan: Scalars['String']['input'];
   bhyt: Scalars['Boolean']['input'];
   chitietcanlamsang: Array<DichVuInput>;
+  idPhieuCLS: Scalars['String']['input'];
 };
 
 export type CreateKetquacanlamsangInput = {
@@ -234,6 +235,7 @@ export type Hoadonchidinhcanlamsang = {
   benhnhan: BenhNhan;
   bhyt: Scalars['Boolean']['output'];
   chitietcanlamsang: Array<DichVu>;
+  idPhieuCLS?: Maybe<Scalars['String']['output']>;
   ngaytao: Scalars['DateTime']['output'];
   thanhtien: Scalars['Float']['output'];
   tinhtrang: Scalars['Boolean']['output'];
@@ -280,6 +282,24 @@ export type LoginResponse = {
 export type LoginUserInput = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
+};
+
+export type MongthRange = {
+  __typename?: 'MongthRange';
+  month: Scalars['Float']['output'];
+  tongtien: Scalars['Float']['output'];
+};
+
+export type MonthRange = {
+  __typename?: 'MonthRange';
+  count: Scalars['Float']['output'];
+  month: Scalars['Float']['output'];
+};
+
+export type MonthRangeCls = {
+  __typename?: 'MonthRangeCLS';
+  month: Scalars['Float']['output'];
+  tongtien: Scalars['Float']['output'];
 };
 
 export type Mutation = {
@@ -680,6 +700,7 @@ export type MutationUpdateToathuocArgs = {
 
 export type MutationUpdateTrangThaiCanLamSangArgs = {
   id: Scalars['String']['input'];
+  trangthai: Scalars['String']['input'];
 };
 
 
@@ -857,7 +878,7 @@ export type Phieuchidinhcanlamsang = {
   ketquacanlamsangs: Array<KetQuaCanLamSang>;
   ngaytao: Scalars['DateTime']['output'];
   phieuxacnhan: PhieuXacNhan;
-  trangthai: Scalars['Boolean']['output'];
+  trangthai: TrangThaiCls;
 };
 
 export type Phong = {
@@ -872,8 +893,12 @@ export type Query = {
   __typename?: 'Query';
   CountBacSi: Scalars['Float']['output'];
   CountBenhNhan: Scalars['Float']['output'];
+  CountChuyenKhoa: Scalars['Float']['output'];
+  CountNhanVien: Scalars['Float']['output'];
+  CountPhong: Scalars['Float']['output'];
   CountThuoc: Scalars['Float']['output'];
   countBlogs: Scalars['Float']['output'];
+  countPhieuXacNhanByDate: Scalars['Float']['output'];
   countUser: Scalars['Float']['output'];
   findAllRelatedKetQuaCanLamSang?: Maybe<Array<KetQuaCanLamSang>>;
   getAllBacSi: Array<BacSi>;
@@ -912,12 +937,23 @@ export type Query = {
   getLastestBlog: Array<Blog>;
   getNhanVienbyUserId?: Maybe<NhanVien>;
   getPhieuCanLamSangbyPhieuXacNhanId?: Maybe<Phieuchidinhcanlamsang>;
+  getStartAndEndOfMonth: Array<MonthRange>;
   getThuocPagination: Array<Thuoc>;
   getThuocbyIds: Array<Thuoc>;
+  getTongTienbyMonth: Array<MongthRange>;
+  getTongTienbyMonthCLS: Array<MonthRangeCls>;
+  getTotalThanhTienByDate: Scalars['Float']['output'];
+  getTotalThanhTienCLSByDate: Scalars['Float']['output'];
   getUserByEmail: Users;
   getUserById: Users;
   getUserByUsername?: Maybe<Users>;
   onlyUser?: Maybe<OnlyUser>;
+};
+
+
+export type QueryCountPhieuXacNhanByDateArgs = {
+  end: Scalars['DateTime']['input'];
+  start: Scalars['DateTime']['input'];
 };
 
 
@@ -960,7 +996,7 @@ export type QueryGetAllHoadonByBenhNhanArgs = {
 
 export type QueryGetAllPhieuClSbyNgayArgs = {
   ngaytao: Scalars['DateTime']['input'];
-  trangthai: Scalars['Boolean']['input'];
+  trangthai: Scalars['String']['input'];
 };
 
 
@@ -1025,6 +1061,11 @@ export type QueryGetPhieuCanLamSangbyPhieuXacNhanIdArgs = {
 };
 
 
+export type QueryGetStartAndEndOfMonthArgs = {
+  year: Scalars['Float']['input'];
+};
+
+
 export type QueryGetThuocPaginationArgs = {
   fetchPagination: FetchPagination;
 };
@@ -1032,6 +1073,28 @@ export type QueryGetThuocPaginationArgs = {
 
 export type QueryGetThuocbyIdsArgs = {
   ids: Array<Scalars['String']['input']>;
+};
+
+
+export type QueryGetTongTienbyMonthArgs = {
+  year: Scalars['Float']['input'];
+};
+
+
+export type QueryGetTongTienbyMonthClsArgs = {
+  year: Scalars['Float']['input'];
+};
+
+
+export type QueryGetTotalThanhTienByDateArgs = {
+  end: Scalars['DateTime']['input'];
+  start: Scalars['DateTime']['input'];
+};
+
+
+export type QueryGetTotalThanhTienClsByDateArgs = {
+  end: Scalars['DateTime']['input'];
+  start: Scalars['DateTime']['input'];
 };
 
 
@@ -1110,6 +1173,12 @@ export type Toathuoc = {
   soluongs: Array<Scalars['Int']['output']>;
   thuocs: Array<Thuoc>;
 };
+
+export enum TrangThaiCls {
+  Chokham = 'CHOKHAM',
+  Daxetnghiem = 'DAXETNGHIEM',
+  Thanhtoan = 'THANHTOAN'
+}
 
 export enum TrangThaiDatKham {
   Dangxet = 'DANGXET',
@@ -1393,6 +1462,13 @@ export type CreateBenhNhanMutationVariables = Exact<{
 
 export type CreateBenhNhanMutation = { __typename?: 'Mutation', createBenhNhan: { __typename?: 'BenhNhan', _id: string } };
 
+export type UpdateBenhNhanMutationVariables = Exact<{
+  input: UpdateBenhNhanInput;
+}>;
+
+
+export type UpdateBenhNhanMutation = { __typename?: 'Mutation', updateBenhNhan: { __typename?: 'BenhNhan', _id: string } };
+
 export type GetCountUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1401,7 +1477,7 @@ export type GetCountUserQuery = { __typename?: 'Query', countUser: number };
 export type OnlyUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OnlyUserQuery = { __typename?: 'Query', onlyUser?: { __typename?: 'BacSi', _id: string, hoten: string, ngaysinh: any, gioitinh: boolean, diachi: string, sodienthoai: string, cccd: string, ngayBD: any, user: { __typename?: 'Users', _id: string, username: string, email: string, role: UserRole, isLocked: boolean, avatar: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } }, phongs: Array<{ __typename?: 'Phong', _id: string, tenphong: string }>, chuyenkhoa: { __typename?: 'ChuyenKhoa', tenkhoa: string } } | { __typename?: 'BenhNhan', _id: string, hoten: string, ngaysinh: any, gioitinh: boolean, diachi: string, sodienthoai: string, cccd: string, bhyt: string, user: { __typename?: 'Users', email: string, avatar: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } } } | { __typename?: 'NhanVien', _id: string, hoten: string, ngaysinh: any, gioitinh: boolean, diachi: string, sodienthoai: string, cccd: string, ngayBD: any, chucvu: string, user: { __typename?: 'Users', _id: string, username: string, email: string, role: UserRole, isLocked: boolean, avatar: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } }, phongs: Array<{ __typename?: 'Phong', _id: string, tenphong: string }> } | { __typename?: 'Users', _id: string, username: string, email: string, role: UserRole, isLocked: boolean, avatar: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } } | null };
+export type OnlyUserQuery = { __typename?: 'Query', onlyUser?: { __typename?: 'BacSi', _id: string, hoten: string, ngaysinh: any, gioitinh: boolean, diachi: string, sodienthoai: string, cccd: string, ngayBD: any, user: { __typename?: 'Users', _id: string, username: string, email: string, role: UserRole, isLocked: boolean, avatar: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } }, phongs: Array<{ __typename?: 'Phong', _id: string, tenphong: string }>, chuyenkhoa: { __typename?: 'ChuyenKhoa', tenkhoa: string } } | { __typename?: 'BenhNhan', _id: string, hoten: string, ngaysinh: any, gioitinh: boolean, diachi: string, sodienthoai: string, cccd: string, bhyt: string, user: { __typename?: 'Users', email: string, role: UserRole, avatar: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } } } | { __typename?: 'NhanVien', _id: string, hoten: string, ngaysinh: any, gioitinh: boolean, diachi: string, sodienthoai: string, cccd: string, ngayBD: any, chucvu: string, user: { __typename?: 'Users', _id: string, username: string, email: string, role: UserRole, isLocked: boolean, avatar: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } }, phongs: Array<{ __typename?: 'Phong', _id: string, tenphong: string }> } | { __typename?: 'Users', _id: string, username: string, email: string, role: UserRole, isLocked: boolean, avatar: { __typename?: 'LinkImage', url: string, fileName: string, type: TypeImage } } | null };
 
 export type GetAllBlogsQueryVariables = Exact<{
   input: FetchPagination;
@@ -1444,6 +1520,26 @@ export type GetBenhNhanbySodienthoaiQueryVariables = Exact<{
 
 
 export type GetBenhNhanbySodienthoaiQuery = { __typename?: 'Query', getBenhNhanbySodienthoai?: { __typename?: 'BenhNhan', _id: string, sodienthoai: string } | null };
+
+export type CountNhanVienQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountNhanVienQuery = { __typename?: 'Query', CountNhanVien: number };
+
+export type CountPhongQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountPhongQuery = { __typename?: 'Query', CountPhong: number };
+
+export type CountChuyenKhoaQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountChuyenKhoaQuery = { __typename?: 'Query', CountChuyenKhoa: number };
+
+export type CountBacSiQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountBacSiQuery = { __typename?: 'Query', CountBacSi: number };
 
 
 export const LoginDocument = gql`
@@ -1649,6 +1745,39 @@ export function useCreateBenhNhanMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateBenhNhanMutationHookResult = ReturnType<typeof useCreateBenhNhanMutation>;
 export type CreateBenhNhanMutationResult = Apollo.MutationResult<CreateBenhNhanMutation>;
 export type CreateBenhNhanMutationOptions = Apollo.BaseMutationOptions<CreateBenhNhanMutation, CreateBenhNhanMutationVariables>;
+export const UpdateBenhNhanDocument = gql`
+    mutation UpdateBenhNhan($input: UpdateBenhNhanInput!) {
+  updateBenhNhan(input: $input) {
+    _id
+  }
+}
+    `;
+export type UpdateBenhNhanMutationFn = Apollo.MutationFunction<UpdateBenhNhanMutation, UpdateBenhNhanMutationVariables>;
+
+/**
+ * __useUpdateBenhNhanMutation__
+ *
+ * To run a mutation, you first call `useUpdateBenhNhanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBenhNhanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBenhNhanMutation, { data, loading, error }] = useUpdateBenhNhanMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateBenhNhanMutation(baseOptions?: Apollo.MutationHookOptions<UpdateBenhNhanMutation, UpdateBenhNhanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateBenhNhanMutation, UpdateBenhNhanMutationVariables>(UpdateBenhNhanDocument, options);
+      }
+export type UpdateBenhNhanMutationHookResult = ReturnType<typeof useUpdateBenhNhanMutation>;
+export type UpdateBenhNhanMutationResult = Apollo.MutationResult<UpdateBenhNhanMutation>;
+export type UpdateBenhNhanMutationOptions = Apollo.BaseMutationOptions<UpdateBenhNhanMutation, UpdateBenhNhanMutationVariables>;
 export const GetCountUserDocument = gql`
     query GetCountUser {
   countUser
@@ -1746,6 +1875,7 @@ export const OnlyUserDocument = gql`
           type
         }
         email
+        role
       }
     }
     ... on NhanVien {
@@ -2138,3 +2268,151 @@ export type GetBenhNhanbySodienthoaiQueryHookResult = ReturnType<typeof useGetBe
 export type GetBenhNhanbySodienthoaiLazyQueryHookResult = ReturnType<typeof useGetBenhNhanbySodienthoaiLazyQuery>;
 export type GetBenhNhanbySodienthoaiSuspenseQueryHookResult = ReturnType<typeof useGetBenhNhanbySodienthoaiSuspenseQuery>;
 export type GetBenhNhanbySodienthoaiQueryResult = Apollo.QueryResult<GetBenhNhanbySodienthoaiQuery, GetBenhNhanbySodienthoaiQueryVariables>;
+export const CountNhanVienDocument = gql`
+    query CountNhanVien {
+  CountNhanVien
+}
+    `;
+
+/**
+ * __useCountNhanVienQuery__
+ *
+ * To run a query within a React component, call `useCountNhanVienQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountNhanVienQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountNhanVienQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCountNhanVienQuery(baseOptions?: Apollo.QueryHookOptions<CountNhanVienQuery, CountNhanVienQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountNhanVienQuery, CountNhanVienQueryVariables>(CountNhanVienDocument, options);
+      }
+export function useCountNhanVienLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountNhanVienQuery, CountNhanVienQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountNhanVienQuery, CountNhanVienQueryVariables>(CountNhanVienDocument, options);
+        }
+export function useCountNhanVienSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CountNhanVienQuery, CountNhanVienQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CountNhanVienQuery, CountNhanVienQueryVariables>(CountNhanVienDocument, options);
+        }
+export type CountNhanVienQueryHookResult = ReturnType<typeof useCountNhanVienQuery>;
+export type CountNhanVienLazyQueryHookResult = ReturnType<typeof useCountNhanVienLazyQuery>;
+export type CountNhanVienSuspenseQueryHookResult = ReturnType<typeof useCountNhanVienSuspenseQuery>;
+export type CountNhanVienQueryResult = Apollo.QueryResult<CountNhanVienQuery, CountNhanVienQueryVariables>;
+export const CountPhongDocument = gql`
+    query CountPhong {
+  CountPhong
+}
+    `;
+
+/**
+ * __useCountPhongQuery__
+ *
+ * To run a query within a React component, call `useCountPhongQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountPhongQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountPhongQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCountPhongQuery(baseOptions?: Apollo.QueryHookOptions<CountPhongQuery, CountPhongQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountPhongQuery, CountPhongQueryVariables>(CountPhongDocument, options);
+      }
+export function useCountPhongLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountPhongQuery, CountPhongQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountPhongQuery, CountPhongQueryVariables>(CountPhongDocument, options);
+        }
+export function useCountPhongSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CountPhongQuery, CountPhongQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CountPhongQuery, CountPhongQueryVariables>(CountPhongDocument, options);
+        }
+export type CountPhongQueryHookResult = ReturnType<typeof useCountPhongQuery>;
+export type CountPhongLazyQueryHookResult = ReturnType<typeof useCountPhongLazyQuery>;
+export type CountPhongSuspenseQueryHookResult = ReturnType<typeof useCountPhongSuspenseQuery>;
+export type CountPhongQueryResult = Apollo.QueryResult<CountPhongQuery, CountPhongQueryVariables>;
+export const CountChuyenKhoaDocument = gql`
+    query CountChuyenKhoa {
+  CountChuyenKhoa
+}
+    `;
+
+/**
+ * __useCountChuyenKhoaQuery__
+ *
+ * To run a query within a React component, call `useCountChuyenKhoaQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountChuyenKhoaQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountChuyenKhoaQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCountChuyenKhoaQuery(baseOptions?: Apollo.QueryHookOptions<CountChuyenKhoaQuery, CountChuyenKhoaQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountChuyenKhoaQuery, CountChuyenKhoaQueryVariables>(CountChuyenKhoaDocument, options);
+      }
+export function useCountChuyenKhoaLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountChuyenKhoaQuery, CountChuyenKhoaQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountChuyenKhoaQuery, CountChuyenKhoaQueryVariables>(CountChuyenKhoaDocument, options);
+        }
+export function useCountChuyenKhoaSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CountChuyenKhoaQuery, CountChuyenKhoaQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CountChuyenKhoaQuery, CountChuyenKhoaQueryVariables>(CountChuyenKhoaDocument, options);
+        }
+export type CountChuyenKhoaQueryHookResult = ReturnType<typeof useCountChuyenKhoaQuery>;
+export type CountChuyenKhoaLazyQueryHookResult = ReturnType<typeof useCountChuyenKhoaLazyQuery>;
+export type CountChuyenKhoaSuspenseQueryHookResult = ReturnType<typeof useCountChuyenKhoaSuspenseQuery>;
+export type CountChuyenKhoaQueryResult = Apollo.QueryResult<CountChuyenKhoaQuery, CountChuyenKhoaQueryVariables>;
+export const CountBacSiDocument = gql`
+    query CountBacSi {
+  CountBacSi
+}
+    `;
+
+/**
+ * __useCountBacSiQuery__
+ *
+ * To run a query within a React component, call `useCountBacSiQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountBacSiQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountBacSiQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCountBacSiQuery(baseOptions?: Apollo.QueryHookOptions<CountBacSiQuery, CountBacSiQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountBacSiQuery, CountBacSiQueryVariables>(CountBacSiDocument, options);
+      }
+export function useCountBacSiLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountBacSiQuery, CountBacSiQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountBacSiQuery, CountBacSiQueryVariables>(CountBacSiDocument, options);
+        }
+export function useCountBacSiSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CountBacSiQuery, CountBacSiQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CountBacSiQuery, CountBacSiQueryVariables>(CountBacSiDocument, options);
+        }
+export type CountBacSiQueryHookResult = ReturnType<typeof useCountBacSiQuery>;
+export type CountBacSiLazyQueryHookResult = ReturnType<typeof useCountBacSiLazyQuery>;
+export type CountBacSiSuspenseQueryHookResult = ReturnType<typeof useCountBacSiSuspenseQuery>;
+export type CountBacSiQueryResult = Apollo.QueryResult<CountBacSiQuery, CountBacSiQueryVariables>;

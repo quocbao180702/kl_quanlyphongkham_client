@@ -49,3 +49,10 @@ mutation CreateBenhNhan($input: NewBenhNhanInput!){
     _id
   }
 }`
+
+const updateBenhNhan = gql`
+mutation UpdateBenhNhan($input: UpdateBenhNhanInput!){
+  updateBenhNhan(input: $input){
+    _id
+  }
+}`
