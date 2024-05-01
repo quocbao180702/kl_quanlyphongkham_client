@@ -56,3 +56,11 @@ mutation UpdateBenhNhan($input: UpdateBenhNhanInput!){
     _id
   }
 }`
+
+
+const createDatlicbacsi = gql`
+mutation CreateDatLichBacSi($input: NewDatLichBacSiInput!){
+  createDatlichBacSi(createDatlichBacSi: $input){
+    _id
+  }
+}`

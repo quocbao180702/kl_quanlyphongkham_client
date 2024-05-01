@@ -251,3 +251,47 @@ const CountBacSi = gql`
 query CountBacSi{
   CountBacSi
 }`
+
+
+
+const getAllBacSi = gql`
+query GetAllBacSi($input: FetchPagination!){
+  CountBacSi
+  getAllBacSi(fetchPagination: $input){
+     	_id
+        hoten	
+        ngaysinh
+        gioitinh
+        diachi
+        sodienthoai
+        cccd
+        ngayBD
+        lichkham
+    		phongs{
+          _id
+          tenphong
+        }
+    		chuyenkhoa{
+          _id
+          tenkhoa
+        }
+    }
+}
+`
+
+const getLichKham = gql`
+query GetLichKham($id: String!){
+  getLichKham(id: $id){
+    _id
+    ngaykham{
+      ngaytrongtuan
+      phiens{
+        batdau
+        ketthuc
+        trangthai
+        soluongToiDa
+      }
+    }
+    ngaynghi
+  }
+}`

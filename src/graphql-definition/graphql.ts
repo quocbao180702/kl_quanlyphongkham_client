@@ -26,6 +26,7 @@ export type BacSi = {
   diachi: Scalars['String']['output'];
   gioitinh: Scalars['Boolean']['output'];
   hoten: Scalars['String']['output'];
+  lichkham?: Maybe<Scalars['String']['output']>;
   ngayBD: Scalars['DateTime']['output'];
   ngaysinh: Scalars['DateTime']['output'];
   phongs: Array<Phong>;
@@ -120,6 +121,11 @@ export type CreateKetquacanlamsangInput = {
   loaicanlamsang: Scalars['String']['input'];
 };
 
+export type CreateLichkhamInput = {
+  ngaykham: Array<PhienkhamInput>;
+  ngaynghi: Array<Scalars['DateTime']['input']>;
+};
+
 export type CreatePhieuXacNhanInput = {
   benhnhan: Scalars['String']['input'];
   email: Scalars['String']['input'];
@@ -178,6 +184,19 @@ export type DatLich = {
   motabenh: Scalars['String']['output'];
   ngaydat: Scalars['DateTime']['output'];
   ngaykham: Scalars['DateTime']['output'];
+  trangthai: TrangThaiDatKham;
+};
+
+export type DatLichBacSi = {
+  __typename?: 'DatLichBacSi';
+  _id: Scalars['ID']['output'];
+  bacsi: BacSi;
+  benhnhan: BenhNhan;
+  email: Scalars['String']['output'];
+  motabenh: Scalars['String']['output'];
+  ngaydat: Scalars['DateTime']['output'];
+  ngaykham: Scalars['DateTime']['output'];
+  phien: Phiens;
   trangthai: TrangThaiDatKham;
 };
 
@@ -250,6 +269,13 @@ export type KetQuaCanLamSang = {
   thietbi?: Maybe<Scalars['String']['output']>;
 };
 
+export type Lichkham = {
+  __typename?: 'Lichkham';
+  _id: Scalars['ID']['output'];
+  ngaykham: Array<Phienkham>;
+  ngaynghi: Array<Scalars['DateTime']['output']>;
+};
+
 export type LinkImage = {
   __typename?: 'LinkImage';
   fileName: Scalars['String']['output'];
@@ -310,10 +336,12 @@ export type Mutation = {
   createBlog: Blog;
   createChuyenKhoa: ChuyenKhoa;
   createDatLich?: Maybe<DatLich>;
+  createDatlichBacSi: DatLichBacSi;
   createDichvu: Dichvu;
   createHoadon: Hoadon;
   createHoadonchidinhcanlamsang: Hoadonchidinhcanlamsang;
   createKetquacanlamsang: KetQuaCanLamSang;
+  createLichKham: Lichkham;
   createLoaicanlamsang: LoaiCanLamSang;
   createNhanVien: NhanVien;
   createPhieuXacNhan: PhieuXacNhan;
@@ -331,8 +359,10 @@ export type Mutation = {
   deleteBlog: Scalars['Boolean']['output'];
   deleteChuyenKhoa: Scalars['Boolean']['output'];
   deleteDatLich: Scalars['Boolean']['output'];
+  deleteDatLichBacSi: Scalars['Boolean']['output'];
   deleteDichvu: Dichvu;
   deleteHoadon: Scalars['Boolean']['output'];
+  deleteLichKham: Scalars['Boolean']['output'];
   deleteLoaicanlamsang: Scalars['Boolean']['output'];
   deleteNhanVien: Scalars['Boolean']['output'];
   deletePhieuXacNhan: Scalars['Boolean']['output'];
@@ -354,10 +384,12 @@ export type Mutation = {
   updateBlog: Blog;
   updateChuyenKhoa: ChuyenKhoa;
   updateDatLich: DatLich;
+  updateDatlichBacSi: DatLichBacSi;
   updateDichvu: Dichvu;
   updateHoadon: Hoadon;
   updateKetquacanlamsang: KetQuaCanLamSang;
   updateKichHoat: Scalars['Boolean']['output'];
+  updateLichKham: Lichkham;
   updateLoaicanlamsang: LoaiCanLamSang;
   updateNhanVien: NhanVien;
   updatePhieuXacNhan: PhieuXacNhan;
@@ -371,6 +403,7 @@ export type Mutation = {
   updateToathuoc: Toathuoc;
   updateTrangThaiCanLamSang: Phieuchidinhcanlamsang;
   updateTrangThaiDatLich: DatLich;
+  updateTrangThaiDatLichBacSi: DatLichBacSi;
   updateTrangThaiHoaDon: Hoadon;
   updateTrangThaiKham: PhieuXacNhan;
   updateTrangThaiThongTinUser: Users;
@@ -382,6 +415,7 @@ export type Mutation = {
 
 
 export type MutationCreateBacSiArgs = {
+  createLichkham: CreateLichkhamInput;
   newBacSiInput: NewBacSiInput;
 };
 
@@ -411,6 +445,11 @@ export type MutationCreateDatLichArgs = {
 };
 
 
+export type MutationCreateDatlichBacSiArgs = {
+  createDatlichBacSi: NewDatLichBacSiInput;
+};
+
+
 export type MutationCreateDichvuArgs = {
   createDichvuInput: CreateDichvuInput;
 };
@@ -428,6 +467,11 @@ export type MutationCreateHoadonchidinhcanlamsangArgs = {
 
 export type MutationCreateKetquacanlamsangArgs = {
   createKetquacanlamsangInput: CreateKetquacanlamsangInput;
+};
+
+
+export type MutationCreateLichKhamArgs = {
+  createLichKham: CreateLichkhamInput;
 };
 
 
@@ -517,12 +561,22 @@ export type MutationDeleteDatLichArgs = {
 };
 
 
+export type MutationDeleteDatLichBacSiArgs = {
+  _id: Scalars['String']['input'];
+};
+
+
 export type MutationDeleteDichvuArgs = {
   id: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteHoadonArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteLichKhamArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -622,6 +676,11 @@ export type MutationUpdateDatLichArgs = {
 };
 
 
+export type MutationUpdateDatlichBacSiArgs = {
+  updateDatlichBacSi: UpdateDatLichBacSiInput;
+};
+
+
 export type MutationUpdateDichvuArgs = {
   updateDichvuInput: UpdateDichvuInput;
 };
@@ -639,6 +698,11 @@ export type MutationUpdateKetquacanlamsangArgs = {
 
 export type MutationUpdateKichHoatArgs = {
   _id: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateLichKhamArgs = {
+  updateLichkham: UpdateLichkhamInput;
 };
 
 
@@ -705,6 +769,12 @@ export type MutationUpdateTrangThaiCanLamSangArgs = {
 
 
 export type MutationUpdateTrangThaiDatLichArgs = {
+  id: Scalars['String']['input'];
+  trangthai: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateTrangThaiDatLichBacSiArgs = {
   id: Scalars['String']['input'];
   trangthai: Scalars['String']['input'];
 };
@@ -782,6 +852,17 @@ export type NewChuyenKhoaInput = {
   tenkhoa: Scalars['String']['input'];
 };
 
+export type NewDatLichBacSiInput = {
+  bacsi: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  hoten: Scalars['String']['input'];
+  motabenh: Scalars['String']['input'];
+  ngaydat: Scalars['DateTime']['input'];
+  ngaykham: Scalars['DateTime']['input'];
+  phien: PhienInput;
+  sodienthoai: Scalars['String']['input'];
+};
+
 export type NewDatLichInput = {
   email: Scalars['String']['input'];
   hoten: Scalars['String']['input'];
@@ -857,6 +938,32 @@ export type NhanVien = {
 
 export type OnlyUser = BacSi | BenhNhan | NhanVien | Users;
 
+export type PhienInput = {
+  batdau: Scalars['String']['input'];
+  ketthuc: Scalars['String']['input'];
+  soluongToiDa: Scalars['Float']['input'];
+  trangthai: Scalars['Boolean']['input'];
+};
+
+export type Phienkham = {
+  __typename?: 'Phienkham';
+  ngaytrongtuan: Scalars['String']['output'];
+  phiens: Array<Phiens>;
+};
+
+export type PhienkhamInput = {
+  ngaytrongtuan: Scalars['String']['input'];
+  phiens: Array<PhienInput>;
+};
+
+export type Phiens = {
+  __typename?: 'Phiens';
+  batdau: Scalars['String']['output'];
+  ketthuc: Scalars['String']['output'];
+  soluongToiDa: Scalars['Float']['output'];
+  trangthai: Scalars['Boolean']['output'];
+};
+
 export type PhieuXacNhan = {
   __typename?: 'PhieuXacNhan';
   _id: Scalars['ID']['output'];
@@ -910,10 +1017,12 @@ export type Query = {
   getAllChuyenKhoa: Array<ChuyenKhoa>;
   getAllDatLich?: Maybe<Array<DatLich>>;
   getAllDatLichbyTrangThai?: Maybe<Array<DatLich>>;
+  getAllDatlichBacSi?: Maybe<Array<DatLichBacSi>>;
   getAllDichVu: Array<Dichvu>;
   getAllHoaDonPhieuCanLamSang: Array<Hoadonchidinhcanlamsang>;
   getAllHoadon: Array<Hoadon>;
   getAllHoadonByBenhNhan: Array<Hoadon>;
+  getAllLich: Array<Lichkham>;
   getAllLoaiCLS: Array<LoaiCanLamSang>;
   getAllNhanVien: Array<NhanVien>;
   getAllPhieuCLS: Array<Phieuchidinhcanlamsang>;
@@ -935,6 +1044,7 @@ export type Query = {
   getBenhNhanbyUserId?: Maybe<BenhNhan>;
   getBlogbyId: Blog;
   getLastestBlog: Array<Blog>;
+  getLichKham: Lichkham;
   getNhanVienbyUserId?: Maybe<NhanVien>;
   getPhieuCanLamSangbyPhieuXacNhanId?: Maybe<Phieuchidinhcanlamsang>;
   getStartAndEndOfMonth: Array<MonthRange>;
@@ -1048,6 +1158,11 @@ export type QueryGetBlogbyIdArgs = {
 
 export type QueryGetLastestBlogArgs = {
   limit: Scalars['Float']['input'];
+};
+
+
+export type QueryGetLichKhamArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -1246,6 +1361,18 @@ export type UpdateChuyenKhoaInput = {
   tenkhoa?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UpdateDatLichBacSiInput = {
+  bacsi?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  hoten?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  motabenh?: InputMaybe<Scalars['String']['input']>;
+  ngaydat?: InputMaybe<Scalars['DateTime']['input']>;
+  ngaykham?: InputMaybe<Scalars['DateTime']['input']>;
+  phien?: InputMaybe<PhienInput>;
+  sodienthoai?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdateDatLichInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   hoten?: InputMaybe<Scalars['String']['input']>;
@@ -1280,6 +1407,12 @@ export type UpdateKetquacanlamsangInput = {
   ketluan: Scalars['String']['input'];
   loaicanlamsang?: InputMaybe<Scalars['String']['input']>;
   thietbi: Scalars['String']['input'];
+};
+
+export type UpdateLichkhamInput = {
+  id: Scalars['String']['input'];
+  ngaykham?: InputMaybe<Array<PhienkhamInput>>;
+  ngaynghi?: InputMaybe<Array<Scalars['DateTime']['input']>>;
 };
 
 export type UpdateLoaicanlamsangInput = {
@@ -1469,6 +1602,13 @@ export type UpdateBenhNhanMutationVariables = Exact<{
 
 export type UpdateBenhNhanMutation = { __typename?: 'Mutation', updateBenhNhan: { __typename?: 'BenhNhan', _id: string } };
 
+export type CreateDatLichBacSiMutationVariables = Exact<{
+  input: NewDatLichBacSiInput;
+}>;
+
+
+export type CreateDatLichBacSiMutation = { __typename?: 'Mutation', createDatlichBacSi: { __typename?: 'DatLichBacSi', _id: string } };
+
 export type GetCountUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1540,6 +1680,20 @@ export type CountBacSiQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CountBacSiQuery = { __typename?: 'Query', CountBacSi: number };
+
+export type GetAllBacSiQueryVariables = Exact<{
+  input: FetchPagination;
+}>;
+
+
+export type GetAllBacSiQuery = { __typename?: 'Query', CountBacSi: number, getAllBacSi: Array<{ __typename?: 'BacSi', _id: string, hoten: string, ngaysinh: any, gioitinh: boolean, diachi: string, sodienthoai: string, cccd: string, ngayBD: any, lichkham?: string | null, phongs: Array<{ __typename?: 'Phong', _id: string, tenphong: string }>, chuyenkhoa: { __typename?: 'ChuyenKhoa', _id: string, tenkhoa: string } }> };
+
+export type GetLichKhamQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetLichKhamQuery = { __typename?: 'Query', getLichKham: { __typename?: 'Lichkham', _id: string, ngaynghi: Array<any>, ngaykham: Array<{ __typename?: 'Phienkham', ngaytrongtuan: string, phiens: Array<{ __typename?: 'Phiens', batdau: string, ketthuc: string, trangthai: boolean, soluongToiDa: number }> }> } };
 
 
 export const LoginDocument = gql`
@@ -1778,6 +1932,39 @@ export function useUpdateBenhNhanMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdateBenhNhanMutationHookResult = ReturnType<typeof useUpdateBenhNhanMutation>;
 export type UpdateBenhNhanMutationResult = Apollo.MutationResult<UpdateBenhNhanMutation>;
 export type UpdateBenhNhanMutationOptions = Apollo.BaseMutationOptions<UpdateBenhNhanMutation, UpdateBenhNhanMutationVariables>;
+export const CreateDatLichBacSiDocument = gql`
+    mutation CreateDatLichBacSi($input: NewDatLichBacSiInput!) {
+  createDatlichBacSi(createDatlichBacSi: $input) {
+    _id
+  }
+}
+    `;
+export type CreateDatLichBacSiMutationFn = Apollo.MutationFunction<CreateDatLichBacSiMutation, CreateDatLichBacSiMutationVariables>;
+
+/**
+ * __useCreateDatLichBacSiMutation__
+ *
+ * To run a mutation, you first call `useCreateDatLichBacSiMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDatLichBacSiMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDatLichBacSiMutation, { data, loading, error }] = useCreateDatLichBacSiMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateDatLichBacSiMutation(baseOptions?: Apollo.MutationHookOptions<CreateDatLichBacSiMutation, CreateDatLichBacSiMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateDatLichBacSiMutation, CreateDatLichBacSiMutationVariables>(CreateDatLichBacSiDocument, options);
+      }
+export type CreateDatLichBacSiMutationHookResult = ReturnType<typeof useCreateDatLichBacSiMutation>;
+export type CreateDatLichBacSiMutationResult = Apollo.MutationResult<CreateDatLichBacSiMutation>;
+export type CreateDatLichBacSiMutationOptions = Apollo.BaseMutationOptions<CreateDatLichBacSiMutation, CreateDatLichBacSiMutationVariables>;
 export const GetCountUserDocument = gql`
     query GetCountUser {
   countUser
@@ -2416,3 +2603,110 @@ export type CountBacSiQueryHookResult = ReturnType<typeof useCountBacSiQuery>;
 export type CountBacSiLazyQueryHookResult = ReturnType<typeof useCountBacSiLazyQuery>;
 export type CountBacSiSuspenseQueryHookResult = ReturnType<typeof useCountBacSiSuspenseQuery>;
 export type CountBacSiQueryResult = Apollo.QueryResult<CountBacSiQuery, CountBacSiQueryVariables>;
+export const GetAllBacSiDocument = gql`
+    query GetAllBacSi($input: FetchPagination!) {
+  CountBacSi
+  getAllBacSi(fetchPagination: $input) {
+    _id
+    hoten
+    ngaysinh
+    gioitinh
+    diachi
+    sodienthoai
+    cccd
+    ngayBD
+    lichkham
+    phongs {
+      _id
+      tenphong
+    }
+    chuyenkhoa {
+      _id
+      tenkhoa
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllBacSiQuery__
+ *
+ * To run a query within a React component, call `useGetAllBacSiQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllBacSiQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllBacSiQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetAllBacSiQuery(baseOptions: Apollo.QueryHookOptions<GetAllBacSiQuery, GetAllBacSiQueryVariables> & ({ variables: GetAllBacSiQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllBacSiQuery, GetAllBacSiQueryVariables>(GetAllBacSiDocument, options);
+      }
+export function useGetAllBacSiLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllBacSiQuery, GetAllBacSiQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllBacSiQuery, GetAllBacSiQueryVariables>(GetAllBacSiDocument, options);
+        }
+export function useGetAllBacSiSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllBacSiQuery, GetAllBacSiQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllBacSiQuery, GetAllBacSiQueryVariables>(GetAllBacSiDocument, options);
+        }
+export type GetAllBacSiQueryHookResult = ReturnType<typeof useGetAllBacSiQuery>;
+export type GetAllBacSiLazyQueryHookResult = ReturnType<typeof useGetAllBacSiLazyQuery>;
+export type GetAllBacSiSuspenseQueryHookResult = ReturnType<typeof useGetAllBacSiSuspenseQuery>;
+export type GetAllBacSiQueryResult = Apollo.QueryResult<GetAllBacSiQuery, GetAllBacSiQueryVariables>;
+export const GetLichKhamDocument = gql`
+    query GetLichKham($id: String!) {
+  getLichKham(id: $id) {
+    _id
+    ngaykham {
+      ngaytrongtuan
+      phiens {
+        batdau
+        ketthuc
+        trangthai
+        soluongToiDa
+      }
+    }
+    ngaynghi
+  }
+}
+    `;
+
+/**
+ * __useGetLichKhamQuery__
+ *
+ * To run a query within a React component, call `useGetLichKhamQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLichKhamQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLichKhamQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetLichKhamQuery(baseOptions: Apollo.QueryHookOptions<GetLichKhamQuery, GetLichKhamQueryVariables> & ({ variables: GetLichKhamQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLichKhamQuery, GetLichKhamQueryVariables>(GetLichKhamDocument, options);
+      }
+export function useGetLichKhamLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLichKhamQuery, GetLichKhamQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLichKhamQuery, GetLichKhamQueryVariables>(GetLichKhamDocument, options);
+        }
+export function useGetLichKhamSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetLichKhamQuery, GetLichKhamQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetLichKhamQuery, GetLichKhamQueryVariables>(GetLichKhamDocument, options);
+        }
+export type GetLichKhamQueryHookResult = ReturnType<typeof useGetLichKhamQuery>;
+export type GetLichKhamLazyQueryHookResult = ReturnType<typeof useGetLichKhamLazyQuery>;
+export type GetLichKhamSuspenseQueryHookResult = ReturnType<typeof useGetLichKhamSuspenseQuery>;
+export type GetLichKhamQueryResult = Apollo.QueryResult<GetLichKhamQuery, GetLichKhamQueryVariables>;

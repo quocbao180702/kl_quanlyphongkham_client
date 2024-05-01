@@ -1,111 +1,39 @@
 "use client"
 import BreadCrum from "@/components/breadcrumb/breadcrumb";
-import { useCreateDatLichMutation } from "@/graphql-definition/graphql";
-import { Button, Col, Container, Form, Row, Toast } from "react-bootstrap";
-import { SubmitHandler, useForm } from "react-hook-form";
-import dayjs, { Dayjs } from "dayjs"
-import DatePickerValue from "@/components/datatimepicker/DateTimePicker";
-import { useContext, useState } from "react";
-import { AuthContext } from "@/provider/AuthContextProvider";
+import { useRouter } from "next/navigation";
+import { Button, Container, Row } from "react-bootstrap";
+import { FcOvertime, FcPlanner } from "react-icons/fc";
 
 function DatLich() {
-    const { isAuthenticated } = useContext(AuthContext);
 
-    const [thongbao, setThongBao] = useState('');
-    const [toast, setToast] = useState(false);
-    const [toastSuccess, setToastSuccess] = useState(false);
-    const title = "Đặt Lịch"
+    const router = useRouter()
 
-    const [ngaykham, setNgayKham] = useState<Dayjs>(dayjs());
-
-    const handleDateChange = (date: any) => {
-        setNgayKham(date);
-    };
-
-    const [createDatlich] = useCreateDatLichMutation();
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
-
-    const onSubmit: SubmitHandler<any> = async (data: any) => {
-        try {
-            if (isAuthenticated) {
-                if (data?.hoten && data?.sodienthoai && data?.email && data?.motabenh) {
-                    const response = await createDatlich({
-                        variables: {
-                            "input": {
-                                "hoten": data?.hoten,
-                                "sodienthoai": data?.sodienthoai,
-                                "motabenh": data?.motabenh,
-                                "ngaydat": dayjs().format("YYYY-MM-DD"),
-                                "ngaykham": ngaykham.format('YYYY-MM-DD'),
-                                "email": data?.email
-                            }
-                        }
-                    })
-                    setThongBao('Đặt Lịch Thành Công Với Số Điện Thoại ' + data?.sodienthoai)
-                    setToastSuccess(true);
-                }
-            }
-            else {
-                setThongBao('Bạn Cần Đăng Nhập Để Đặt Lịch')
-                setToast(true);
-            }
-
-        } catch (error) {
-            console.log(error);
-        }
+    const handleChyenVip = () => {
+        router.push('/datlich/datlichvip');
+    }
+    const handleChuyenThuong = () => {
+        router.push('/datlich/datlichthuong');
     }
 
     return (
         <>
-            {toast &&
-                <Toast bg="danger" onClose={() => setToast(false)} show={toast} delay={3000} autohide style={{ position: "fixed", top: "20px", right: "20px", zIndex: 1 }}>
-                    <Toast.Header></Toast.Header>
-                    <Toast.Body className="text-white">{thongbao}</Toast.Body>
-                </Toast>
-            }
-            {toastSuccess &&
-                <Toast bg="success" onClose={() => setToastSuccess(false)} show={toastSuccess} delay={3000} autohide style={{ position: "fixed", top: "20px", right: "20px", zIndex: 2 }}>
-                    <Toast.Header></Toast.Header>
-                    <Toast.Body className="text-white">{thongbao}</Toast.Body>
-                </Toast>
-            }
-            <BreadCrum title={title} />
-            <Container className="text-center mb-5">
-                <div className="mb-5 d-flex align-items-center" style={{ height: "400px" }}>
-                    <Row className="mt-5 w-100 text-center">
-                        <Col className="col-lg-6 z-index-2 mx-auto">
-                            <Form className="row g-3" onSubmit={handleSubmit(onSubmit)}>
-                                <Form.Group className="col-md-6">
-                                    <Form.Label className="visually-hidden sr-only" >Họ Tên</Form.Label>
-                                    <Form.Control className="form-control form-livedoc-control" type="text" placeholder="Họ Tên" {...register('hoten')} />
-                                </Form.Group>
-                                <Form.Group className="col-md-6">
-                                    <Form.Label className="visually-hidden sr-only">Số Điện Thoại</Form.Label>
-                                    <Form.Control className="form-control form-livedoc-control" type="text" placeholder="Số Điện Thoại" {...register('sodienthoai')} />
-                                </Form.Group>
-                                <Form.Group className="col-md-6">
-                                    <Form.Control type="date" min={dayjs().format('YYYY-MM-DD')} value={ngaykham.format('YYYY-MM-DD')} onChange={(e) => handleDateChange(dayjs(e.target.value))} />
-                                </Form.Group>
-                                <Form.Group className="col-md-6">
-                                    <Form.Label className="form-label visually-hidden sr-only" >Email</Form.Label>
-                                    <Form.Control className="form-control form-livedoc-control" type="email" placeholder="Email" {...register('email')} />
-                                </Form.Group>
-                                <Form.Group className="col-md-12" controlId="exampleForm.ControlTextarea1">
-                                    <Form.Control as="textarea" rows={3} placeholder="Mô tả bệnh" {...register('motabenh')} />
-                                </Form.Group>
-                                <Form.Group className="col-12">
-                                    <div className="d-grid">
-                                        <Button className="btn btn-primary rounded-pill" type="submit">Đặt Lịch Ngay</Button>
-                                    </div>
-                                </Form.Group>
-                            </Form>
-                        </Col>
-                    </Row>
+            <BreadCrum title="Đặt Lịch" />
+            <Container className="mb-5">
+                <div className="w-100 text-center mt-5">
+                    <h2 className="d-block">Hình Thức Đặt Lịch</h2>
+                    <p>Đặt khám nhanh chóng, giảm thời gian chờ đợi</p>
+                    <div className="d-flex justify-content-center align-items-center mt-3">
+                        <div className="flex-item">
+                            <Button className="btn-custom" onClick={handleChuyenThuong}>
+                                <FcOvertime size={42} /> Đặt Lịch Thường
+                            </Button>
+                        </div>
+                        <div className="flex-item">
+                            <Button className="btn-custom" onClick={handleChyenVip}>
+                                <FcPlanner size={42}/> Đặt Theo Bác Sĩ
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </Container>
         </>
