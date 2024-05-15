@@ -71,11 +71,11 @@ function Header() {
                                     <Dropdown.Menu>
 
                                         {(profile?.user?.role ===  UserRole.User) && (
-                                        <Dropdown.Item href="/profile" active>
+                                        <Dropdown.Item as={Link} href="/profile" active>
                                             Hồ Sơ Cá Nhân
                                         </Dropdown.Item>)}
-                                        <Dropdown.Item href="/lichsu/hoadon">Hoá Đơn</Dropdown.Item>
-                                        <Dropdown.Item href="/lichsu/toathuoc">Toa Thuốc</Dropdown.Item>
+                                        <Dropdown.Item as={Link} href="/lichsu/hoadon">Hoá Đơn</Dropdown.Item>
+                                        <Dropdown.Item as={Link} href="/lichsu/toathuoc">Toa Thuốc</Dropdown.Item>
                                         <Dropdown.Divider />
                                         <Dropdown.Item onClick={handleLogout}>Đăng Xuất</Dropdown.Item>
                                     </Dropdown.Menu>

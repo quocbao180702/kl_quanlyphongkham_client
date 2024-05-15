@@ -2,7 +2,7 @@
 import BreadCrum from "@/components/breadcrumb/breadcrumb";
 import { Card, Col, Container, Form, Row, Toast } from "react-bootstrap";
 
-import { Button, Calendar } from "antd";
+import { Button, Calendar, message } from "antd";
 
 
 import { styled } from '@mui/material/styles';
@@ -42,6 +42,7 @@ function DatLichVip() {
     const [selectePhien, setSelectedPhien] = useState<{ batdau: string, ketthuc: string }>()
     const [thongbao, setThongBao] = useState('');
     const [toast, setToast] = useState(false);
+    const [ngaysinh, setNgaySinh] = useState<Dayjs>(dayjs());
 
 
     const { data: dataBacSi, loading: loadingBacSi, error: errorBacSi } = useGetAllBacSiQuery({
@@ -153,6 +154,10 @@ function DatLichVip() {
         handleChangeNextStep();
     }
 
+    const handleDateChange = (date: any) => {
+        setNgaySinh(date);
+    };
+
     const [createDatlichBacSi] = useCreateDatLichBacSiMutation();
 
     const onSubmit: SubmitHandler<any> = async (data: any) => {
@@ -173,6 +178,9 @@ function DatLichVip() {
                                 "sodienthoai": data?.sodienthoai,
                                 "email": data?.email,
                                 "hoten": data?.hoten,
+                                "cccd": data?.cccd,
+                                "ngaysinh": ngaysinh.format("YYYY-MM-DD"),
+                                "gioitinh": data?.gioitinh === 0 ? true : false,
                                 "motabenh": data?.motabenh,
                                 "ngaydat": dayjs().format("YYYY-MM-DD"),
                                 "ngaykham": selectedDate.format('YYYY-MM-DD'),
@@ -189,14 +197,19 @@ function DatLichVip() {
                         console.log('bị lỗi: ', result?.errors)
                         return;
                     }
+                    message.success('Đặt Lịch Thành Công');
                     handleChangeNextStep();
                 }
             } else {
+                message.error('Đặt Lịch Thất Bại');
                 setThongBao('Bạn Cần Đăng Nhập Để Đặt Lịch')
                 setToast(true);
             }
         } catch (error) {
-            console.log('không thể thêm đặt lịch theo bác sĩ vì: ', error)
+            message.error('Đặt Lịch Thất Bại');
+            setThongBao('không thể thêm đặt lịch theo bác sĩ vì' + error)
+            setToast(true);
+            /* console.log('không thể thêm đặt lịch theo bác sĩ vì: ', error) */
         }
 
     }
@@ -249,26 +262,45 @@ function DatLichVip() {
                     <div>
                         <Row className="justify-content-center">
                             <Form className="col-6 g-3" onSubmit={handleSubmit(onSubmit)}>
-                                <Form.Group className="col-md-12 mb-2">
-                                    <Form.Label className="visually-hidden sr-only" >Họ Tên</Form.Label>
-                                    <Form.Control className="form-control form-livedoc-control" type="text" placeholder="Họ Tên" {...register('hoten')} />
-                                </Form.Group>
-                                <Form.Group className="col-md-12 mb-2">
-                                    <Form.Label className="visually-hidden sr-only">Số Điện Thoại</Form.Label>
-                                    <Form.Control className="form-control form-livedoc-control" type="text" placeholder="Số Điện Thoại" {...register('sodienthoai')} />
-                                </Form.Group>
-                                <Form.Group className="col-md-12 mb-2">
-                                    <Form.Label className="form-label visually-hidden sr-only" >Email</Form.Label>
-                                    <Form.Control className="form-control form-livedoc-control" type="email" placeholder="Email" {...register('email')} />
-                                </Form.Group>
-                                <Form.Group className="col-md-12 mb-2" controlId="exampleForm.ControlTextarea1">
-                                    <Form.Control as="textarea" rows={3} placeholder="Mô tả bệnh" {...register('motabenh')} />
-                                </Form.Group>
-                                <Form.Group className="col-12">
-                                    <div className="d-grid">
-                                        <Button className="btn btn-primary rounded-pill" htmlType="submit">Hoàn Tất</Button>
-                                    </div>
-                                </Form.Group>
+                                <Row>
+                                    <Form.Group className="col-md-8 mb-2">
+                                        <Form.Label className="visually-hidden sr-only" >Họ Tên</Form.Label>
+                                        <Form.Control className="form-control form-livedoc-control" type="text" placeholder="Họ Tên" {...register('hoten')} />
+                                    </Form.Group>
+                                    <Form.Group className="col-md-4 mb-2">
+                                        <Form.Label className="visually-hidden sr-only" >CCCD</Form.Label>
+                                        <Form.Control className="form-control form-livedoc-control" type="text" placeholder="CCCD" {...register('cccd')} />
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Form.Group className="col-md-4 mb-2">
+                                        <Form.Label className="visually-hidden sr-only">Số Điện Thoại</Form.Label>
+                                        <Form.Control className="form-control form-livedoc-control" type="text" placeholder="Số Điện Thoại" {...register('sodienthoai')} />
+                                    </Form.Group>
+                                    <Form.Group className="col-md-4">
+                                        <Form.Control type="date" min={dayjs().format('YYYY-MM-DD')} value={ngaysinh.format('YYYY-MM-DD')} onChange={(e) => handleDateChange(dayjs(e.target.value))} />
+                                    </Form.Group>
+                                    <Form.Group className="col-md-4">
+                                        <Form.Select className="col-md-4" {...register("gioitinh")}>
+                                            <option value={0}>Nam</option>
+                                            <option value={1}>Nữ</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Form.Group className="col-md-12 mb-2">
+                                        <Form.Label className="form-label visually-hidden sr-only" >Email</Form.Label>
+                                        <Form.Control className="form-control form-livedoc-control" type="email" placeholder="Email" {...register('email')} />
+                                    </Form.Group>
+                                    <Form.Group className="col-md-12 mb-2" controlId="exampleForm.ControlTextarea1">
+                                        <Form.Control as="textarea" rows={3} placeholder="Mô tả bệnh" {...register('motabenh')} />
+                                    </Form.Group>
+                                    <Form.Group className="col-12">
+                                        <div className="d-grid">
+                                            <Button className="btn btn-primary rounded-pill" htmlType="submit">Hoàn Tất</Button>
+                                        </div>
+                                    </Form.Group>
+                                </Row>
                             </Form>
                         </Row>
                     </div>

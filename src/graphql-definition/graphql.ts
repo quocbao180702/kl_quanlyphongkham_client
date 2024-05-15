@@ -131,6 +131,7 @@ export type CreatePhieuXacNhanInput = {
   email: Scalars['String']['input'];
   ngaykham: Scalars['DateTime']['input'];
   ngaytao: Scalars['DateTime']['input'];
+  phien: PhienInput;
   phongs: Array<Scalars['String']['input']>;
 };
 
@@ -156,6 +157,12 @@ export type CreateSinhhieuInput = {
 export type CreateSobenhInput = {
   benhnhan: Scalars['String']['input'];
   ngaytao: Scalars['DateTime']['input'];
+};
+
+export type CreateTestInput = {
+  adress: Scalars['String']['input'];
+  age: Scalars['String']['input'];
+  name: Scalars['String']['input'];
 };
 
 export type CreateToathuocInput = {
@@ -227,6 +234,7 @@ export type Dichvu = {
 };
 
 export type FetchPagination = {
+  search?: InputMaybe<Scalars['String']['input']>;
   skip?: Scalars['Int']['input'];
   take?: Scalars['Int']['input'];
 };
@@ -263,7 +271,7 @@ export type Hoadonchidinhcanlamsang = {
 export type KetQuaCanLamSang = {
   __typename?: 'KetQuaCanLamSang';
   _id: Scalars['ID']['output'];
-  hinhanh?: Maybe<LinkImage>;
+  hinhanh?: Maybe<Array<LinkImage>>;
   ketluan?: Maybe<Scalars['String']['output']>;
   loaicanlamsang: LoaiCanLamSang;
   thietbi?: Maybe<Scalars['String']['output']>;
@@ -349,6 +357,7 @@ export type Mutation = {
   createPhong: Phong;
   createSinhhieu: Sinhhieu;
   createSobenh: Sobenh;
+  createTest: Test;
   createThuoc: Thuoc;
   createToathuoc: Toathuoc;
   createUser: Users;
@@ -508,6 +517,11 @@ export type MutationCreateSinhhieuArgs = {
 
 export type MutationCreateSobenhArgs = {
   createSobenhInput: CreateSobenhInput;
+};
+
+
+export type MutationCreateTestArgs = {
+  createTestInput: CreateTestInput;
 };
 
 
@@ -854,21 +868,27 @@ export type NewChuyenKhoaInput = {
 
 export type NewDatLichBacSiInput = {
   bacsi: Scalars['String']['input'];
+  cccd: Scalars['String']['input'];
   email: Scalars['String']['input'];
+  gioitinh: Scalars['Boolean']['input'];
   hoten: Scalars['String']['input'];
   motabenh: Scalars['String']['input'];
   ngaydat: Scalars['DateTime']['input'];
   ngaykham: Scalars['DateTime']['input'];
+  ngaysinh: Scalars['DateTime']['input'];
   phien: PhienInput;
   sodienthoai: Scalars['String']['input'];
 };
 
 export type NewDatLichInput = {
+  cccd: Scalars['String']['input'];
   email: Scalars['String']['input'];
+  gioitinh: Scalars['Boolean']['input'];
   hoten: Scalars['String']['input'];
   motabenh: Scalars['String']['input'];
   ngaydat: Scalars['DateTime']['input'];
   ngaykham: Scalars['DateTime']['input'];
+  ngaysinh: Scalars['DateTime']['input'];
   sodienthoai: Scalars['String']['input'];
 };
 
@@ -970,6 +990,7 @@ export type PhieuXacNhan = {
   benhnhan: BenhNhan;
   ngaykham: Scalars['DateTime']['output'];
   ngaytao: Scalars['DateTime']['output'];
+  phien: Phiens;
   phieuchidinhcanlamsang?: Maybe<Phieuchidinhcanlamsang>;
   phongs: Array<Phong>;
   sothutu: Scalars['Int']['output'];
@@ -1001,6 +1022,8 @@ export type Query = {
   CountBacSi: Scalars['Float']['output'];
   CountBenhNhan: Scalars['Float']['output'];
   CountChuyenKhoa: Scalars['Float']['output'];
+  CountHoadon: Scalars['Float']['output'];
+  CountHoadonchidinhcanlamsang: Scalars['Float']['output'];
   CountNhanVien: Scalars['Float']['output'];
   CountPhong: Scalars['Float']['output'];
   CountThuoc: Scalars['Float']['output'];
@@ -1008,6 +1031,7 @@ export type Query = {
   countPhieuXacNhanByDate: Scalars['Float']['output'];
   countUser: Scalars['Float']['output'];
   findAllRelatedKetQuaCanLamSang?: Maybe<Array<KetQuaCanLamSang>>;
+  get: Test;
   getAllBacSi: Array<BacSi>;
   getAllBenh: Array<Benh>;
   getAllBenhNhan: Array<BenhNhan>;
@@ -1016,6 +1040,8 @@ export type Query = {
   getAllByNgayVaPhong: Array<PhieuXacNhan>;
   getAllChuyenKhoa: Array<ChuyenKhoa>;
   getAllDatLich?: Maybe<Array<DatLich>>;
+  getAllDatLichBacSiByBacSi?: Maybe<Array<DatLichBacSi>>;
+  getAllDatLichBacSiByTrangThai?: Maybe<Array<DatLichBacSi>>;
   getAllDatLichbyTrangThai?: Maybe<Array<DatLich>>;
   getAllDatlichBacSi?: Maybe<Array<DatLichBacSi>>;
   getAllDichVu: Array<Dichvu>;
@@ -1039,10 +1065,12 @@ export type Query = {
   getAllUsers: Array<Users>;
   getAllVatTuYTe: Array<Vattuyte>;
   getBacSibyUserId?: Maybe<BacSi>;
+  getBenhNhanbyHoten?: Maybe<Array<BenhNhan>>;
   getBenhNhanbyId: BenhNhan;
   getBenhNhanbySodienthoai?: Maybe<BenhNhan>;
   getBenhNhanbyUserId?: Maybe<BenhNhan>;
   getBlogbyId: Blog;
+  getHoaDonbyNgay: Array<Hoadon>;
   getLastestBlog: Array<Blog>;
   getLichKham: Lichkham;
   getNhanVienbyUserId?: Maybe<NhanVien>;
@@ -1072,6 +1100,11 @@ export type QueryFindAllRelatedKetQuaCanLamSangArgs = {
 };
 
 
+export type QueryGetArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type QueryGetAllBacSiArgs = {
   fetchPagination: FetchPagination;
 };
@@ -1094,13 +1127,38 @@ export type QueryGetAllByNgayVaPhongArgs = {
 };
 
 
+export type QueryGetAllDatLichBacSiByBacSiArgs = {
+  bacsi: Scalars['String']['input'];
+};
+
+
+export type QueryGetAllDatLichBacSiByTrangThaiArgs = {
+  trangthai: Scalars['String']['input'];
+};
+
+
 export type QueryGetAllDatLichbyTrangThaiArgs = {
   trangthai: Scalars['String']['input'];
 };
 
 
+export type QueryGetAllHoaDonPhieuCanLamSangArgs = {
+  fetchPagination: FetchPagination;
+};
+
+
+export type QueryGetAllHoadonArgs = {
+  fetchPagination: FetchPagination;
+};
+
+
 export type QueryGetAllHoadonByBenhNhanArgs = {
   benhnhanId: Scalars['String']['input'];
+};
+
+
+export type QueryGetAllNhanVienArgs = {
+  fetchPagination: FetchPagination;
 };
 
 
@@ -1136,6 +1194,11 @@ export type QueryGetBacSibyUserIdArgs = {
 };
 
 
+export type QueryGetBenhNhanbyHotenArgs = {
+  hoten: Scalars['String']['input'];
+};
+
+
 export type QueryGetBenhNhanbyIdArgs = {
   id: Scalars['String']['input'];
 };
@@ -1153,6 +1216,11 @@ export type QueryGetBenhNhanbyUserIdArgs = {
 
 export type QueryGetBlogbyIdArgs = {
   id: Scalars['String']['input'];
+};
+
+
+export type QueryGetHoaDonbyNgayArgs = {
+  ngaykham: Scalars['String']['input'];
 };
 
 
@@ -1260,6 +1328,14 @@ export type Subscription = {
   newPhieuXacNhan: PhieuXacNhan;
 };
 
+export type Test = {
+  __typename?: 'Test';
+  _id: Scalars['ID']['output'];
+  adress: Scalars['String']['output'];
+  age: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type Thuoc = {
   __typename?: 'Thuoc';
   _id: Scalars['ID']['output'];
@@ -1297,6 +1373,7 @@ export enum TrangThaiCls {
 
 export enum TrangThaiDatKham {
   Dangxet = 'DANGXET',
+  Huy = 'HUY',
   Xacnhan = 'XACNHAN'
 }
 
@@ -1363,23 +1440,29 @@ export type UpdateChuyenKhoaInput = {
 
 export type UpdateDatLichBacSiInput = {
   bacsi?: InputMaybe<Scalars['String']['input']>;
+  cccd?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
+  gioitinh?: InputMaybe<Scalars['Boolean']['input']>;
   hoten?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
   motabenh?: InputMaybe<Scalars['String']['input']>;
   ngaydat?: InputMaybe<Scalars['DateTime']['input']>;
   ngaykham?: InputMaybe<Scalars['DateTime']['input']>;
+  ngaysinh?: InputMaybe<Scalars['DateTime']['input']>;
   phien?: InputMaybe<PhienInput>;
   sodienthoai?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDatLichInput = {
+  cccd?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
+  gioitinh?: InputMaybe<Scalars['Boolean']['input']>;
   hoten?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
   motabenh?: InputMaybe<Scalars['String']['input']>;
   ngaydat?: InputMaybe<Scalars['DateTime']['input']>;
   ngaykham?: InputMaybe<Scalars['DateTime']['input']>;
+  ngaysinh?: InputMaybe<Scalars['DateTime']['input']>;
   sodienthoai?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1402,7 +1485,7 @@ export type UpdateHoadonInput = {
 };
 
 export type UpdateKetquacanlamsangInput = {
-  hinhanh: LinkImageInput;
+  hinhanh: Array<LinkImageInput>;
   id: Scalars['String']['input'];
   ketluan: Scalars['String']['input'];
   loaicanlamsang?: InputMaybe<Scalars['String']['input']>;
@@ -1443,6 +1526,7 @@ export type UpdatePhieuXacNhanInput = {
   id: Scalars['String']['input'];
   ngaykham?: InputMaybe<Scalars['DateTime']['input']>;
   ngaytao?: InputMaybe<Scalars['DateTime']['input']>;
+  phien?: InputMaybe<PhienInput>;
   phongs?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 

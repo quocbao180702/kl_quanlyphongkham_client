@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { LanguageContext } from "@/provider/LanguageProvider";
 import { BlogPage as vn } from "@/locales/vi/blogs.page";
 import { BlogPage as en } from "@/locales/en/blogs.page";
+import Search, { SearchProps } from "antd/es/input/Search";
 
 
 function Blogs() {
@@ -26,7 +27,7 @@ function Blogs() {
         setT(languageState === 'vn' ? vn : en)
     }, [languageState])
 
-    const { data: dataBlog, error: errorBlog, loading: loadingBlog } = useGetAllBlogsQuery({
+    const { data: dataBlog, error: errorBlog, loading: loadingBlog, refetch } = useGetAllBlogsQuery({
         variables: {
             input: {
                 skip: skip,
@@ -46,6 +47,16 @@ function Blogs() {
             limit: 1
         }
     })
+
+    const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
+        refetch({
+            input: {
+                take: take,
+                skip: skip,
+                search: value
+            }
+        })
+    }
 
     return (
         <>
@@ -105,7 +116,7 @@ function Blogs() {
                     <Col lg={3}>
                         <div className="mb-5">
                             <div className="bg-white">
-                                <Form className="d-flex">
+                               {/*  <Form className="d-flex">
                                     <Form.Control
                                         type="search"
                                         placeholder={`${t?.blogSearch}`}
@@ -115,7 +126,8 @@ function Blogs() {
                                     <Button>
                                         {t?.blogSearch}
                                     </Button>
-                                </Form>
+                                </Form> */}
+                                 <Search placeholder="Tiêu đề" allowClear onSearch={onSearch} size={"large"} style={{ width: 300 }} />
                             </div>
                         </div>
                         <div className="mb-5">
