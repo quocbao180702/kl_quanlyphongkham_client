@@ -229,7 +229,7 @@ function DatLichVip() {
                                         <Card.Body>
                                             <Card.Title>{bacsi?.chuyenkhoa?.tenkhoa}</Card.Title>
                                             <Card.Text>
-                                                <strong>Giá khám</strong>150.000 đ
+                                                <strong>Giá khám: </strong>150.000 đ
                                             </Card.Text>
                                             <Button onClick={() => handleChooseBacSi(bacsi?.lichkham || '', bacsi?._id || '')} className="primary">Đặt</Button>
                                         </Card.Body>
@@ -243,7 +243,6 @@ function DatLichVip() {
                 return (
                     <div>
                         <h3 className="text-center"> Lịch Khám </h3>
-                        <h4>Lịch Khám Id: {dataLichKham?.getLichKham?._id}</h4>
                         <Calendar
                             disabledDate={disabledDate}
                             onSelect={onDateSelect}
@@ -419,7 +418,7 @@ function DatLichVip() {
                         </div>
                     ) : (
                         <div>
-                            <h4> Step is {activeStep}</h4>
+                            {/* <h4> Step is {activeStep}</h4> */}
 
                             <div className="mt-2 mb-1">
                                 {getStepContent(activeStep)}
