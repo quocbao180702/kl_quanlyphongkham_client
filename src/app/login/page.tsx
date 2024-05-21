@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation';
 import { AuthContext } from "../../provider/AuthContextProvider";
 import { IoEyeSharp } from "react-icons/io5";
 import { RiLockPasswordLine } from 'react-icons/ri';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
 
@@ -36,18 +38,18 @@ function Login() {
             }
         })
         if (response.data?.login) {
+            toast.success("Đăng Nhập Thành Công",{
+                position: "top-right",
+            });
             setJwtToken(response.data.login.access_token as string);
             checkAuth();
             router.push('/');
         }
     }
 
-    const handleSubmitGoogle = () => {
-
-    }
-
     return (
         <Container className="py-4 my-4 mb-5">
+            <ToastContainer />
             <Row className="d-flex justify-content-center align-items-center" style={{height: "700px"}}>
                 <Col md={6}>
                     <Card border="0" className="shadow">
