@@ -885,6 +885,7 @@ export type NewDatLichBacSiInput = {
   ngaysinh: Scalars['DateTime']['input'];
   phien: PhienInput;
   sodienthoai: Scalars['String']['input'];
+  trangthai?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type NewDatLichInput = {
@@ -1033,6 +1034,8 @@ export type Query = {
   CountHoadon: Scalars['Float']['output'];
   CountHoadonchidinhcanlamsang: Scalars['Float']['output'];
   CountNhanVien: Scalars['Float']['output'];
+  CountPhieuCLS: Scalars['Float']['output'];
+  CountPhieuDatLichbyNgayAndBatDau?: Maybe<Scalars['Float']['output']>;
   CountPhong: Scalars['Float']['output'];
   CountThuoc: Scalars['Float']['output'];
   CountToaThuocbyBacSi: Scalars['Float']['output'];
@@ -1099,6 +1102,12 @@ export type Query = {
   getUserById?: Maybe<Users>;
   getUserByUsername?: Maybe<Users>;
   onlyUser?: Maybe<OnlyUser>;
+};
+
+
+export type QueryCountPhieuDatLichbyNgayAndBatDauArgs = {
+  batdau: Scalars['String']['input'];
+  ngaykham: Scalars['DateTime']['input'];
 };
 
 
@@ -1494,6 +1503,7 @@ export type UpdateDatLichBacSiInput = {
   ngaysinh?: InputMaybe<Scalars['DateTime']['input']>;
   phien?: InputMaybe<PhienInput>;
   sodienthoai?: InputMaybe<Scalars['String']['input']>;
+  trangthai?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDatLichInput = {
@@ -1829,6 +1839,14 @@ export type GetALlHoaDonClSbyBenhNhanQueryVariables = Exact<{
 
 
 export type GetALlHoaDonClSbyBenhNhanQuery = { __typename?: 'Query', getHoaDonCLSbyBenhNhan: Array<{ __typename?: 'Hoadonchidinhcanlamsang', _id: string, bhyt: boolean, thanhtien: number, tinhtrang: boolean, ngaytao: any, idPhieuCLS?: string | null, benhnhan: { __typename?: 'BenhNhan', hoten: string, ngaysinh: any, gioitinh: boolean, sodienthoai: string }, chitietcanlamsang: Array<{ __typename?: 'DichVu', ten: string, gia: number, soluong: number, thanhtien: number }> }> };
+
+export type CountPhieuDatLichbyNgayAndBatDauQueryVariables = Exact<{
+  ngaykham: Scalars['DateTime']['input'];
+  batdau: Scalars['String']['input'];
+}>;
+
+
+export type CountPhieuDatLichbyNgayAndBatDauQuery = { __typename?: 'Query', CountPhieuDatLichbyNgayAndBatDau?: number | null };
 
 
 export const LoginDocument = gql`
@@ -2902,3 +2920,42 @@ export type GetALlHoaDonClSbyBenhNhanQueryHookResult = ReturnType<typeof useGetA
 export type GetALlHoaDonClSbyBenhNhanLazyQueryHookResult = ReturnType<typeof useGetALlHoaDonClSbyBenhNhanLazyQuery>;
 export type GetALlHoaDonClSbyBenhNhanSuspenseQueryHookResult = ReturnType<typeof useGetALlHoaDonClSbyBenhNhanSuspenseQuery>;
 export type GetALlHoaDonClSbyBenhNhanQueryResult = Apollo.QueryResult<GetALlHoaDonClSbyBenhNhanQuery, GetALlHoaDonClSbyBenhNhanQueryVariables>;
+export const CountPhieuDatLichbyNgayAndBatDauDocument = gql`
+    query CountPhieuDatLichbyNgayAndBatDau($ngaykham: DateTime!, $batdau: String!) {
+  CountPhieuDatLichbyNgayAndBatDau(ngaykham: $ngaykham, batdau: $batdau)
+}
+    `;
+
+/**
+ * __useCountPhieuDatLichbyNgayAndBatDauQuery__
+ *
+ * To run a query within a React component, call `useCountPhieuDatLichbyNgayAndBatDauQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountPhieuDatLichbyNgayAndBatDauQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountPhieuDatLichbyNgayAndBatDauQuery({
+ *   variables: {
+ *      ngaykham: // value for 'ngaykham'
+ *      batdau: // value for 'batdau'
+ *   },
+ * });
+ */
+export function useCountPhieuDatLichbyNgayAndBatDauQuery(baseOptions: Apollo.QueryHookOptions<CountPhieuDatLichbyNgayAndBatDauQuery, CountPhieuDatLichbyNgayAndBatDauQueryVariables> & ({ variables: CountPhieuDatLichbyNgayAndBatDauQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountPhieuDatLichbyNgayAndBatDauQuery, CountPhieuDatLichbyNgayAndBatDauQueryVariables>(CountPhieuDatLichbyNgayAndBatDauDocument, options);
+      }
+export function useCountPhieuDatLichbyNgayAndBatDauLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountPhieuDatLichbyNgayAndBatDauQuery, CountPhieuDatLichbyNgayAndBatDauQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountPhieuDatLichbyNgayAndBatDauQuery, CountPhieuDatLichbyNgayAndBatDauQueryVariables>(CountPhieuDatLichbyNgayAndBatDauDocument, options);
+        }
+export function useCountPhieuDatLichbyNgayAndBatDauSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CountPhieuDatLichbyNgayAndBatDauQuery, CountPhieuDatLichbyNgayAndBatDauQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CountPhieuDatLichbyNgayAndBatDauQuery, CountPhieuDatLichbyNgayAndBatDauQueryVariables>(CountPhieuDatLichbyNgayAndBatDauDocument, options);
+        }
+export type CountPhieuDatLichbyNgayAndBatDauQueryHookResult = ReturnType<typeof useCountPhieuDatLichbyNgayAndBatDauQuery>;
+export type CountPhieuDatLichbyNgayAndBatDauLazyQueryHookResult = ReturnType<typeof useCountPhieuDatLichbyNgayAndBatDauLazyQuery>;
+export type CountPhieuDatLichbyNgayAndBatDauSuspenseQueryHookResult = ReturnType<typeof useCountPhieuDatLichbyNgayAndBatDauSuspenseQuery>;
+export type CountPhieuDatLichbyNgayAndBatDauQueryResult = Apollo.QueryResult<CountPhieuDatLichbyNgayAndBatDauQuery, CountPhieuDatLichbyNgayAndBatDauQueryVariables>;

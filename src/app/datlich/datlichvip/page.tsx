@@ -20,8 +20,7 @@ import { GiFinishLine } from "react-icons/gi";
 import moment from "moment";
 import { FaUserDoctor } from "react-icons/fa6";
 import { useContext, useEffect, useState } from "react";
-import { Typography } from "@mui/material";
-import { useCreateDatLichBacSiMutation, useGetAllBacSiQuery, useGetLichKhamLazyQuery } from "@/graphql-definition/graphql";
+import { useCountPhieuDatLichbyNgayAndBatDauLazyQuery, useCreateDatLichBacSiMutation, useGetAllBacSiQuery, useGetLichKhamLazyQuery } from "@/graphql-definition/graphql";
 import { SubmitHandler, useForm } from "react-hook-form";
 import dayjs, { Dayjs } from "dayjs";
 import Link from "next/link";
@@ -55,6 +54,7 @@ function DatLichVip() {
     });
 
     const [getLichKham, { data: dataLichKham, loading: loadingLichKham, error: errorLichKham }] = useGetLichKhamLazyQuery();
+    const [getCount] = useCountPhieuDatLichbyNgayAndBatDauLazyQuery();
 
 
     useEffect(() => {
@@ -83,24 +83,21 @@ function DatLichVip() {
     const handleChangeNextStep = () => {
         const newActiveStep = isLastStep() ? activeStep : activeStep + 1
         setActiveStep(newActiveStep);
-        /*  setActiveStep(activeStep + 1) */
     }
 
     const handleChangeBackStep = () => {
         const newActiveStep = (activeStep - 1) < 0 ? 0 : (activeStep - 1);
         setActiveStep(newActiveStep)
-        /* setActiveStep(activeStep-1); */
     }
 
     const handleChooseBacSi = (id: string, idBacSi: string) => {
-        console.log('id is: ', id);
         setIdBacSi(idBacSi);
         setIdLich(id);
         handleChangeNextStep();
     }
 
+
     const onDateSelect = (date: any) => {
-        console.log(date.format('YYYY-MM-DD'));
         setSelectedDate(date);
         const phiens = dataLichKham?.getLichKham?.ngaykham
             .flatMap(ngay => ngay?.ngaytrongtuan === date.format('dddd') ? ngay?.phiens : [])
@@ -112,20 +109,11 @@ function DatLichVip() {
         console.log('các phiên khám: ', phien)
     }, [phien])
 
-    const currentWeek = moment().week(); // Tuần hiện tại
+    /* const currentWeek = moment().week();
 
-    // Hàm xử lý khi người dùng chọn một ngày cụ thể
     const handleDateSelect = (date: any) => {
         console.log("Selected date:", date.format("YYYY-MM-DD"));
-    };
-
-    // Hàm xác định xem ngày có thể chọn hay không
-    /* const disabledDate = (date: any) => {
-        return date.week() !== currentWeek;
     }; */
-    /* const disabledDate = (date: any) => {
-        return date.week() !== currentWeek; 
-    } */
 
     const disabledDate = (current: any) => {
         if (!enabledDates?.includes(current.format('dddd'))) {
@@ -149,10 +137,31 @@ function DatLichVip() {
         formState: { errors },
     } = useForm();
 
-    const handleChoosePhien = (batdau: string, ketthuc: string) => {
-        setSelectedPhien({ batdau, ketthuc })
-        handleChangeNextStep();
-    }
+    const handleChoosePhien = async (batdau: string, ketthuc: string, soluongToiDa: number) => {
+        try {
+            await getCount({
+                variables: {
+                    ngaykham: selectedDate.format('YYYY-MM-DD'),
+                    batdau: batdau,
+                },
+                onCompleted: (data) => {
+                    if ((Number(data?.CountPhieuDatLichbyNgayAndBatDau) >=0 ) || (data?.CountPhieuDatLichbyNgayAndBatDau !== undefined)) {
+                        console.log(Number(data.CountPhieuDatLichbyNgayAndBatDau));
+                        if (Number(data?.CountPhieuDatLichbyNgayAndBatDau) < Number(soluongToiDa)) {
+                            setSelectedPhien({ batdau, ketthuc });
+                            handleChangeNextStep();
+                        } else {
+                            message.warning(`Số lượng còn lại là: ${(Number(soluongToiDa) - Number(data?.CountPhieuDatLichbyNgayAndBatDau))}`);
+                        }
+                    }
+                },
+            });
+        } catch (error) {
+            message.error('Có lỗi xảy ra, vui lòng thử lại sau.');
+        }
+    };
+
+
 
     const handleDateChange = (date: any) => {
         setNgaySinh(date);
@@ -184,6 +193,7 @@ function DatLichVip() {
                                 "motabenh": data?.motabenh,
                                 "ngaydat": dayjs().format("YYYY-MM-DD"),
                                 "ngaykham": selectedDate.format('YYYY-MM-DD'),
+                                "trangthai": "DANGXET",
                                 "phien": {
                                     "batdau": selectePhien?.batdau,
                                     "ketthuc": selectePhien?.ketthuc,
@@ -209,7 +219,6 @@ function DatLichVip() {
             message.error('Đặt Lịch Thất Bại');
             setThongBao('không thể thêm đặt lịch theo bác sĩ vì' + error)
             setToast(true);
-            /* console.log('không thể thêm đặt lịch theo bác sĩ vì: ', error) */
         }
 
     }
@@ -251,7 +260,7 @@ function DatLichVip() {
                             {selectedDate && <h4>{selectedDate.format('YYYY-MM-DD')}</h4>}
                             {selectedDate && <h4>{selectedDate.format('dddd')}</h4>}
                             {phien && (phien.map((map, index) => (
-                                <Button className="btn-custom" onClick={() => handleChoosePhien(map?.batdau, map?.ketthuc)} key={index}>{map?.batdau} - {map?.ketthuc}</Button>
+                                <Button className="btn-custom" onClick={() => handleChoosePhien(map?.batdau, map?.ketthuc, Number(map?.soluongToiDa))} key={index}>{map?.batdau} - {map?.ketthuc}</Button>
                             )))}
                         </div>
                     </div>

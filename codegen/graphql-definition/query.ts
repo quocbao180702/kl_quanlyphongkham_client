@@ -319,3 +319,9 @@ query GetALlHoaDonCLSbyBenhNhan($id: String!){
     idPhieuCLS
   }
 }`
+
+
+const CountPhieuDatLichbyNgayAndBatDau = gql`
+query CountPhieuDatLichbyNgayAndBatDau($ngaykham: DateTime!, $batdau: String!){
+  CountPhieuDatLichbyNgayAndBatDau(ngaykham: $ngaykham, batdau: $batdau)
+}`
