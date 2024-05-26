@@ -141,6 +141,7 @@ export type CreatePhieuchidinhcanlamsangInput = {
   bhyt: Scalars['Boolean']['input'];
   ngaytao: Scalars['DateTime']['input'];
   phieuxacnhan: Scalars['String']['input'];
+  truoc: Scalars['Boolean']['input'];
 };
 
 export type CreateSinhhieuInput = {
@@ -418,6 +419,7 @@ export type Mutation = {
   updateTrangThaiThongTinUser: Users;
   updateUser: Users;
   updateUserbySoDienThoai?: Maybe<BenhNhan>;
+  updateUuTien: Phieuchidinhcanlamsang;
   updateVatTuYTe: Vattuyte;
   xulyKhoa: Users;
 };
@@ -821,6 +823,11 @@ export type MutationUpdateUserbySoDienThoaiArgs = {
 };
 
 
+export type MutationUpdateUuTienArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type MutationUpdateVatTuYTeArgs = {
   updateDichvuInput: UpdateVattuyteInput;
 };
@@ -1007,6 +1014,7 @@ export type Phieuchidinhcanlamsang = {
   ngaytao: Scalars['DateTime']['output'];
   phieuxacnhan: PhieuXacNhan;
   trangthai: TrangThaiCls;
+  truoc: Scalars['Boolean']['output'];
 };
 
 export type Phong = {
@@ -1027,6 +1035,7 @@ export type Query = {
   CountNhanVien: Scalars['Float']['output'];
   CountPhong: Scalars['Float']['output'];
   CountThuoc: Scalars['Float']['output'];
+  CountToaThuocbyBacSi: Scalars['Float']['output'];
   countBlogs: Scalars['Float']['output'];
   countPhieuXacNhanByDate: Scalars['Float']['output'];
   countUser: Scalars['Float']['output'];
@@ -1061,18 +1070,22 @@ export type Query = {
   getAllSoBenh: Array<Sobenh>;
   getAllThuoc: Array<Thuoc>;
   getAllToaThuoc: Array<Toathuoc>;
+  getAllToaThuocbyBacSi: Array<Toathuoc>;
   getAllToaThuocbyBenhNhan: Array<Toathuoc>;
   getAllUsers: Array<Users>;
   getAllVatTuYTe: Array<Vattuyte>;
+  getBacSibyId?: Maybe<BacSi>;
   getBacSibyUserId?: Maybe<BacSi>;
   getBenhNhanbyHoten?: Maybe<Array<BenhNhan>>;
   getBenhNhanbyId: BenhNhan;
   getBenhNhanbySodienthoai?: Maybe<BenhNhan>;
   getBenhNhanbyUserId?: Maybe<BenhNhan>;
   getBlogbyId: Blog;
+  getHoaDonCLSbyBenhNhan: Array<Hoadonchidinhcanlamsang>;
   getHoaDonbyNgay: Array<Hoadon>;
   getLastestBlog: Array<Blog>;
   getLichKham: Lichkham;
+  getNhanVienbyId?: Maybe<NhanVien>;
   getNhanVienbyUserId?: Maybe<NhanVien>;
   getPhieuCanLamSangbyPhieuXacNhanId?: Maybe<Phieuchidinhcanlamsang>;
   getStartAndEndOfMonth: Array<MonthRange>;
@@ -1083,9 +1096,14 @@ export type Query = {
   getTotalThanhTienByDate: Scalars['Float']['output'];
   getTotalThanhTienCLSByDate: Scalars['Float']['output'];
   getUserByEmail: Users;
-  getUserById: Users;
+  getUserById?: Maybe<Users>;
   getUserByUsername?: Maybe<Users>;
   onlyUser?: Maybe<OnlyUser>;
+};
+
+
+export type QueryCountToaThuocbyBacSiArgs = {
+  bacsiId: Scalars['String']['input'];
 };
 
 
@@ -1179,6 +1197,12 @@ export type QueryGetAllSinhHieuByBenhNhanArgs = {
 };
 
 
+export type QueryGetAllToaThuocbyBacSiArgs = {
+  bacsiId: Scalars['String']['input'];
+  fetchPagination: FetchPagination;
+};
+
+
 export type QueryGetAllToaThuocbyBenhNhanArgs = {
   benhnhanId: Scalars['String']['input'];
 };
@@ -1186,6 +1210,11 @@ export type QueryGetAllToaThuocbyBenhNhanArgs = {
 
 export type QueryGetAllUsersArgs = {
   fetchUsersArgs: FetchUsersArgs;
+};
+
+
+export type QueryGetBacSibyIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -1219,6 +1248,11 @@ export type QueryGetBlogbyIdArgs = {
 };
 
 
+export type QueryGetHoaDonClSbyBenhNhanArgs = {
+  idbenhnhan: Scalars['String']['input'];
+};
+
+
 export type QueryGetHoaDonbyNgayArgs = {
   ngaykham: Scalars['String']['input'];
 };
@@ -1230,6 +1264,11 @@ export type QueryGetLastestBlogArgs = {
 
 
 export type QueryGetLichKhamArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryGetNhanVienbyIdArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -1325,7 +1364,11 @@ export type Sobenh = {
 export type Subscription = {
   __typename?: 'Subscription';
   newDatLich: DatLich;
+  newHoaDon: Hoadon;
+  newHoaDonCLS: Hoadonchidinhcanlamsang;
   newPhieuXacNhan: PhieuXacNhan;
+  updateCLSDaXetNghiem: Phieuchidinhcanlamsang;
+  updateCLSThanhToan: Phieuchidinhcanlamsang;
 };
 
 export type Test = {
@@ -1537,6 +1580,7 @@ export type UpdatePhieuchidinhcanlamsangInput = {
   id: Scalars['String']['input'];
   ngaytao?: InputMaybe<Scalars['DateTime']['input']>;
   phieuxacnhan?: InputMaybe<Scalars['String']['input']>;
+  truoc?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdatePhongInput = {
@@ -1778,6 +1822,13 @@ export type GetLichKhamQueryVariables = Exact<{
 
 
 export type GetLichKhamQuery = { __typename?: 'Query', getLichKham: { __typename?: 'Lichkham', _id: string, ngaynghi: Array<any>, ngaykham: Array<{ __typename?: 'Phienkham', ngaytrongtuan: string, phiens: Array<{ __typename?: 'Phiens', batdau: string, ketthuc: string, trangthai: boolean, soluongToiDa: number }> }> } };
+
+export type GetALlHoaDonClSbyBenhNhanQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetALlHoaDonClSbyBenhNhanQuery = { __typename?: 'Query', getHoaDonCLSbyBenhNhan: Array<{ __typename?: 'Hoadonchidinhcanlamsang', _id: string, bhyt: boolean, thanhtien: number, tinhtrang: boolean, ngaytao: any, idPhieuCLS?: string | null, benhnhan: { __typename?: 'BenhNhan', hoten: string, ngaysinh: any, gioitinh: boolean, sodienthoai: string }, chitietcanlamsang: Array<{ __typename?: 'DichVu', ten: string, gia: number, soluong: number, thanhtien: number }> }> };
 
 
 export const LoginDocument = gql`
@@ -2794,3 +2845,60 @@ export type GetLichKhamQueryHookResult = ReturnType<typeof useGetLichKhamQuery>;
 export type GetLichKhamLazyQueryHookResult = ReturnType<typeof useGetLichKhamLazyQuery>;
 export type GetLichKhamSuspenseQueryHookResult = ReturnType<typeof useGetLichKhamSuspenseQuery>;
 export type GetLichKhamQueryResult = Apollo.QueryResult<GetLichKhamQuery, GetLichKhamQueryVariables>;
+export const GetALlHoaDonClSbyBenhNhanDocument = gql`
+    query GetALlHoaDonCLSbyBenhNhan($id: String!) {
+  getHoaDonCLSbyBenhNhan(idbenhnhan: $id) {
+    _id
+    bhyt
+    benhnhan {
+      hoten
+      ngaysinh
+      gioitinh
+      sodienthoai
+    }
+    chitietcanlamsang {
+      ten
+      gia
+      soluong
+      thanhtien
+    }
+    thanhtien
+    tinhtrang
+    ngaytao
+    idPhieuCLS
+  }
+}
+    `;
+
+/**
+ * __useGetALlHoaDonClSbyBenhNhanQuery__
+ *
+ * To run a query within a React component, call `useGetALlHoaDonClSbyBenhNhanQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetALlHoaDonClSbyBenhNhanQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetALlHoaDonClSbyBenhNhanQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetALlHoaDonClSbyBenhNhanQuery(baseOptions: Apollo.QueryHookOptions<GetALlHoaDonClSbyBenhNhanQuery, GetALlHoaDonClSbyBenhNhanQueryVariables> & ({ variables: GetALlHoaDonClSbyBenhNhanQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetALlHoaDonClSbyBenhNhanQuery, GetALlHoaDonClSbyBenhNhanQueryVariables>(GetALlHoaDonClSbyBenhNhanDocument, options);
+      }
+export function useGetALlHoaDonClSbyBenhNhanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetALlHoaDonClSbyBenhNhanQuery, GetALlHoaDonClSbyBenhNhanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetALlHoaDonClSbyBenhNhanQuery, GetALlHoaDonClSbyBenhNhanQueryVariables>(GetALlHoaDonClSbyBenhNhanDocument, options);
+        }
+export function useGetALlHoaDonClSbyBenhNhanSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetALlHoaDonClSbyBenhNhanQuery, GetALlHoaDonClSbyBenhNhanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetALlHoaDonClSbyBenhNhanQuery, GetALlHoaDonClSbyBenhNhanQueryVariables>(GetALlHoaDonClSbyBenhNhanDocument, options);
+        }
+export type GetALlHoaDonClSbyBenhNhanQueryHookResult = ReturnType<typeof useGetALlHoaDonClSbyBenhNhanQuery>;
+export type GetALlHoaDonClSbyBenhNhanLazyQueryHookResult = ReturnType<typeof useGetALlHoaDonClSbyBenhNhanLazyQuery>;
+export type GetALlHoaDonClSbyBenhNhanSuspenseQueryHookResult = ReturnType<typeof useGetALlHoaDonClSbyBenhNhanSuspenseQuery>;
+export type GetALlHoaDonClSbyBenhNhanQueryResult = Apollo.QueryResult<GetALlHoaDonClSbyBenhNhanQuery, GetALlHoaDonClSbyBenhNhanQueryVariables>;

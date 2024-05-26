@@ -75,6 +75,7 @@ function Header() {
                                             Hồ Sơ Cá Nhân
                                         </Dropdown.Item>)}
                                         <Dropdown.Item as={Link} href="/lichsu/hoadon">Hoá Đơn</Dropdown.Item>
+                                        <Dropdown.Item as={Link} href="/lichsu/hoadoncls">Hoá Đơn CLS</Dropdown.Item>
                                         <Dropdown.Item as={Link} href="/lichsu/toathuoc">Toa Thuốc</Dropdown.Item>
                                         <Dropdown.Divider />
                                         <Dropdown.Item onClick={handleLogout}>Đăng Xuất</Dropdown.Item>
@@ -83,12 +84,12 @@ function Header() {
                             ) :
                             (
                                 <div className="d-flex justify-content-between align-items-center" style={{ marginLeft: '10px' }}> {/* Thêm margin left */}
-                                    <Button variant="outline-secondary">
+                                    <Button variant="outline-primary">
                                         <Link href="/login" className=" link-underline link-underline-opacity-0 text-light">
                                             {t?.headerLogin}
                                         </Link>
                                     </Button>
-                                    <Button variant="outline-secondary">
+                                    <Button variant="outline-primary">
                                         <Link href="/register" className=" link-underline link-underline-opacity-0 text-light">
                                             {t?.headerRegister}
                                         </Link>

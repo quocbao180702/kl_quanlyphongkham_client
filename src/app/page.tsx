@@ -221,9 +221,7 @@ export default function Home() {
                   <p className="mb-0 fs-xxl-1">Chuyên Khoa Tim Mạch</p>
                   <p className="text-600 mb-0">Long Xuyên - An Giang</p>
                   <p className="text-600 mb-4">10 năm kinh nghiệm</p>
-                  {/* <div className="text-center">
-                    <button className="btn btn-outline-secondary rounded-pill" type="submit">Xem</button>
-                  </div> */}
+                  <a href="/datlich/datlichvip" className="text-decoration-none">Xem Tất Cả</a>
                 </div>
               </div>
             </Col>
@@ -234,9 +232,7 @@ export default function Home() {
                   <p className="mb-0 fs-xxl-1">Cận Lâm Sàng</p>
                   <p className="text-600 mb-0">Châu Đốc - An Giang</p>
                   <p className="text-600 mb-4">5 năm kinh nghiệm</p>
-                  {/* <div className="text-center">
-                    <button className="btn btn-outline-secondary rounded-pill" type="submit">Xem</button>
-                  </div> */}
+                  <a href="/datlich/datlichvip" className="text-decoration-none">Xem Tất Cả</a>
                 </div>
               </div>
             </Col>
@@ -247,9 +243,7 @@ export default function Home() {
                   <p className="mb-0 fs-xxl-1">Chuyên Khoa Da Liễu</p>
                   <p className="text-600 mb-0">Tri Tôn - An Giang</p>
                   <p className="text-600 mb-4">10 năm kinh nghiệm</p>
-                  {/* <div className="text-center">
-                    <button className="btn btn-secondary hover-top rounded-pill border-0" type="submit">Xem</button>
-                  </div> */}
+                  <a href="/datlich/datlichvip" className="text-decoration-none">Xem Tất Cả</a>
                 </div>
               </div>
             </Col>

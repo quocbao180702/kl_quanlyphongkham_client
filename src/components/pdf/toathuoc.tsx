@@ -67,6 +67,7 @@ function ToaThuocPDF({ data }: { data: any }) {
                                 <tr key={index}>
                                     <td>{thuoc?.thuoc}</td>
                                     <td>{thuoc?.soLuong}</td>
+                                    <td>1 viên 1 lần</td>
                                 </tr>
                             ))}
                         </tbody>

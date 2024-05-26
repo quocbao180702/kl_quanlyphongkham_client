@@ -295,3 +295,27 @@ query GetLichKham($id: String!){
     ngaynghi
   }
 }`
+
+const GetAllHoaDonCLS = gql`
+query GetALlHoaDonCLSbyBenhNhan($id: String!){
+  getHoaDonCLSbyBenhNhan(idbenhnhan: $id){
+    _id
+    bhyt
+    benhnhan{
+      hoten
+      ngaysinh
+      gioitinh
+      sodienthoai
+    }
+    chitietcanlamsang{
+      ten
+      gia
+      soluong
+      thanhtien
+    }
+    thanhtien
+    tinhtrang
+    ngaytao
+    idPhieuCLS
+  }
+}`
