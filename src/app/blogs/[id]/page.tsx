@@ -56,7 +56,7 @@ function Blog({ params }: { params: { id: string } }) {
                 </Row>
                 <Row>
                     {dataBlogLastest && dataBlogLastest.getLastestBlog.map((blog) => (
-                        <Col lg={4}>
+                        <Col  key={blog?._id} lg={4}>
                             <Card style={{ width: '100%' }}>
                                 <Card.Img variant="top" src={blog?.hinhanh?.url} style={{ width: "100%", maxHeight: "200px", objectFit: "fill" }} />
                                 <Card.Body>

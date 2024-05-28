@@ -1107,6 +1107,7 @@ export type Query = {
 
 export type QueryCountPhieuDatLichbyNgayAndBatDauArgs = {
   batdau: Scalars['String']['input'];
+  idBacSi: Scalars['String']['input'];
   ngaykham: Scalars['DateTime']['input'];
 };
 
@@ -1841,6 +1842,7 @@ export type GetALlHoaDonClSbyBenhNhanQueryVariables = Exact<{
 export type GetALlHoaDonClSbyBenhNhanQuery = { __typename?: 'Query', getHoaDonCLSbyBenhNhan: Array<{ __typename?: 'Hoadonchidinhcanlamsang', _id: string, bhyt: boolean, thanhtien: number, tinhtrang: boolean, ngaytao: any, idPhieuCLS?: string | null, benhnhan: { __typename?: 'BenhNhan', hoten: string, ngaysinh: any, gioitinh: boolean, sodienthoai: string }, chitietcanlamsang: Array<{ __typename?: 'DichVu', ten: string, gia: number, soluong: number, thanhtien: number }> }> };
 
 export type CountPhieuDatLichbyNgayAndBatDauQueryVariables = Exact<{
+  idBacSi: Scalars['String']['input'];
   ngaykham: Scalars['DateTime']['input'];
   batdau: Scalars['String']['input'];
 }>;
@@ -2921,8 +2923,12 @@ export type GetALlHoaDonClSbyBenhNhanLazyQueryHookResult = ReturnType<typeof use
 export type GetALlHoaDonClSbyBenhNhanSuspenseQueryHookResult = ReturnType<typeof useGetALlHoaDonClSbyBenhNhanSuspenseQuery>;
 export type GetALlHoaDonClSbyBenhNhanQueryResult = Apollo.QueryResult<GetALlHoaDonClSbyBenhNhanQuery, GetALlHoaDonClSbyBenhNhanQueryVariables>;
 export const CountPhieuDatLichbyNgayAndBatDauDocument = gql`
-    query CountPhieuDatLichbyNgayAndBatDau($ngaykham: DateTime!, $batdau: String!) {
-  CountPhieuDatLichbyNgayAndBatDau(ngaykham: $ngaykham, batdau: $batdau)
+    query CountPhieuDatLichbyNgayAndBatDau($idBacSi: String!, $ngaykham: DateTime!, $batdau: String!) {
+  CountPhieuDatLichbyNgayAndBatDau(
+    idBacSi: $idBacSi
+    ngaykham: $ngaykham
+    batdau: $batdau
+  )
 }
     `;
 
@@ -2938,6 +2944,7 @@ export const CountPhieuDatLichbyNgayAndBatDauDocument = gql`
  * @example
  * const { data, loading, error } = useCountPhieuDatLichbyNgayAndBatDauQuery({
  *   variables: {
+ *      idBacSi: // value for 'idBacSi'
  *      ngaykham: // value for 'ngaykham'
  *      batdau: // value for 'batdau'
  *   },

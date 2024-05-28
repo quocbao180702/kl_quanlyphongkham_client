@@ -259,7 +259,7 @@ export default function Home() {
         <Row>
           {dataBlogLastes && dataBlogLastes?.getLastestBlog?.map((blog) => {
             return (
-              <Col xl={4} sm={4} lg={4}>
+              <Col key={blog?._id} xl={4} sm={4} lg={4}>
                 <div className="card h-100 shadow card-span rounded-3"><Image className="card-img-top d-flex justify-content-center" style={{ width: "100%", height: "180px", objectFit: "fill", }} src={getUrlImage(blog?.hinhanh)} alt="news" />
                   <div className="card-body"><span className="fs--1 text-primary me-3">Health</span>
                     <svg className="bi bi-calendar2 me-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">

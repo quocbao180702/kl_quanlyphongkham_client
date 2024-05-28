@@ -69,7 +69,7 @@ function Blogs() {
                             <div>
                                 {BlogLastest && BlogLastest?.getLastestBlog.map((blog) => {
                                     return (
-                                        <a className="card bg-light text-white p-0" href={`http://localhost:8000/blogs/${blog?._id}`}>
+                                        <a key={blog?._id} className="card bg-light text-white p-0" href={`http://localhost:8000/blogs/${blog?._id}`}>
                                             <Image src={getUrlImage(blog?.hinhanh)} className="card-img" alt="..." />
                                             <div className="card-img-overlay">
                                                 <h5 className="card-title text-dark">{blog?.tieude}</h5>

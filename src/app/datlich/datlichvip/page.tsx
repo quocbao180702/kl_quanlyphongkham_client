@@ -48,7 +48,7 @@ function DatLichVip() {
         variables: {
             input: {
                 skip: 0,
-                take: 4
+                take: 10
             }
         }
     });
@@ -141,6 +141,7 @@ function DatLichVip() {
         try {
             await getCount({
                 variables: {
+                    idBacSi: idBacSi,
                     ngaykham: selectedDate.format('YYYY-MM-DD'),
                     batdau: batdau,
                 },
@@ -234,9 +235,9 @@ function DatLichVip() {
                             {dataBacSi?.getAllBacSi?.map(bacsi => (
                                 <Col lg={6} key={bacsi?._id}>
                                     <Card className="mt-2">
-                                        <Card.Header>{bacsi?.hoten}</Card.Header>
+                                        <Card.Header>{bacsi?.chuyenkhoa?.tenkhoa}</Card.Header>
                                         <Card.Body>
-                                            <Card.Title>{bacsi?.chuyenkhoa?.tenkhoa}</Card.Title>
+                                            <Card.Title>{bacsi?.hoten}</Card.Title>
                                             <Card.Text>
                                                 <strong>Giá khám: </strong>150.000 đ
                                             </Card.Text>
@@ -286,7 +287,7 @@ function DatLichVip() {
                                         <Form.Control className="form-control form-livedoc-control" type="text" placeholder="Số Điện Thoại" {...register('sodienthoai')} />
                                     </Form.Group>
                                     <Form.Group className="col-md-4">
-                                        <Form.Control type="date" min={dayjs().format('YYYY-MM-DD')} value={ngaysinh.format('YYYY-MM-DD')} onChange={(e) => handleDateChange(dayjs(e.target.value))} />
+                                        <Form.Control type="date" max={dayjs().format('YYYY-MM-DD')} value={ngaysinh.format('YYYY-MM-DD')} onChange={(e) => handleDateChange(dayjs(e.target.value))} />
                                     </Form.Group>
                                     <Form.Group className="col-md-4">
                                         <Form.Select className="col-md-4" {...register("gioitinh")}>

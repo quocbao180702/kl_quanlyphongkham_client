@@ -322,6 +322,6 @@ query GetALlHoaDonCLSbyBenhNhan($id: String!){
 
 
 const CountPhieuDatLichbyNgayAndBatDau = gql`
-query CountPhieuDatLichbyNgayAndBatDau($ngaykham: DateTime!, $batdau: String!){
-  CountPhieuDatLichbyNgayAndBatDau(ngaykham: $ngaykham, batdau: $batdau)
+query CountPhieuDatLichbyNgayAndBatDau($idBacSi: String!, $ngaykham: DateTime!, $batdau: String!){
+  CountPhieuDatLichbyNgayAndBatDau(idBacSi: $idBacSi, ngaykham: $ngaykham, batdau: $batdau)
 }`
