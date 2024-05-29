@@ -845,9 +845,9 @@ export type NewBacSiInput = {
   hoten: Scalars['String']['input'];
   ngayBD: Scalars['DateTime']['input'];
   ngaysinh: Scalars['DateTime']['input'];
-  phongs: Array<Scalars['ID']['input']>;
+  phongs: Array<Scalars['String']['input']>;
   sodienthoai: Scalars['String']['input'];
-  username: Scalars['String']['input'];
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type NewBenhInput = {
@@ -1067,6 +1067,7 @@ export type Query = {
   getAllPhieuCLSbyNgay: Array<Phieuchidinhcanlamsang>;
   getAllPhieuXacNhan: Array<PhieuXacNhan>;
   getAllPhieuXacNhanDaXetNgiem?: Maybe<Array<PhieuXacNhan>>;
+  getAllPhieuXacNhanbyIdBenhNhan: Array<PhieuXacNhan>;
   getAllPhong: Array<Phong>;
   getAllSinhHieuByBenhNhan: Sinhhieu;
   getAllSinhhieu: Array<Sinhhieu>;
@@ -1199,6 +1200,11 @@ export type QueryGetAllPhieuClSbyNgayArgs = {
 export type QueryGetAllPhieuXacNhanDaXetNgiemArgs = {
   ngaykham: Scalars['String']['input'];
   phongIds: Scalars['String']['input'];
+};
+
+
+export type QueryGetAllPhieuXacNhanbyIdBenhNhanArgs = {
+  idBenhNhan: Scalars['String']['input'];
 };
 
 
@@ -1451,7 +1457,7 @@ export type UpdateBacSiInput = {
   id: Scalars['String']['input'];
   ngayBD?: InputMaybe<Scalars['DateTime']['input']>;
   ngaysinh?: InputMaybe<Scalars['DateTime']['input']>;
-  phongs?: InputMaybe<Array<Scalars['ID']['input']>>;
+  phongs?: InputMaybe<Array<Scalars['String']['input']>>;
   sodienthoai?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1849,6 +1855,13 @@ export type CountPhieuDatLichbyNgayAndBatDauQueryVariables = Exact<{
 
 
 export type CountPhieuDatLichbyNgayAndBatDauQuery = { __typename?: 'Query', CountPhieuDatLichbyNgayAndBatDau?: number | null };
+
+export type GetAllPhieuXacNhanbyIdBenhNhanQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetAllPhieuXacNhanbyIdBenhNhanQuery = { __typename?: 'Query', getAllPhieuXacNhanbyIdBenhNhan: Array<{ __typename?: 'PhieuXacNhan', _id: string, sothutu: number, ngaytao: any, ngaykham: any, trangthai: TrangThaiKham, benhnhan: { __typename?: 'BenhNhan', hoten: string, ngaysinh: any, gioitinh: boolean }, phien: { __typename?: 'Phiens', batdau: string, ketthuc: string }, phongs: Array<{ __typename?: 'Phong', _id: string, tenphong: string }> }> };
 
 
 export const LoginDocument = gql`
@@ -2966,3 +2979,60 @@ export type CountPhieuDatLichbyNgayAndBatDauQueryHookResult = ReturnType<typeof 
 export type CountPhieuDatLichbyNgayAndBatDauLazyQueryHookResult = ReturnType<typeof useCountPhieuDatLichbyNgayAndBatDauLazyQuery>;
 export type CountPhieuDatLichbyNgayAndBatDauSuspenseQueryHookResult = ReturnType<typeof useCountPhieuDatLichbyNgayAndBatDauSuspenseQuery>;
 export type CountPhieuDatLichbyNgayAndBatDauQueryResult = Apollo.QueryResult<CountPhieuDatLichbyNgayAndBatDauQuery, CountPhieuDatLichbyNgayAndBatDauQueryVariables>;
+export const GetAllPhieuXacNhanbyIdBenhNhanDocument = gql`
+    query GetAllPhieuXacNhanbyIdBenhNhan($id: String!) {
+  getAllPhieuXacNhanbyIdBenhNhan(idBenhNhan: $id) {
+    _id
+    benhnhan {
+      hoten
+      ngaysinh
+      gioitinh
+    }
+    phien {
+      batdau
+      ketthuc
+    }
+    phongs {
+      _id
+      tenphong
+    }
+    sothutu
+    ngaytao
+    ngaykham
+    trangthai
+  }
+}
+    `;
+
+/**
+ * __useGetAllPhieuXacNhanbyIdBenhNhanQuery__
+ *
+ * To run a query within a React component, call `useGetAllPhieuXacNhanbyIdBenhNhanQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllPhieuXacNhanbyIdBenhNhanQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllPhieuXacNhanbyIdBenhNhanQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetAllPhieuXacNhanbyIdBenhNhanQuery(baseOptions: Apollo.QueryHookOptions<GetAllPhieuXacNhanbyIdBenhNhanQuery, GetAllPhieuXacNhanbyIdBenhNhanQueryVariables> & ({ variables: GetAllPhieuXacNhanbyIdBenhNhanQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllPhieuXacNhanbyIdBenhNhanQuery, GetAllPhieuXacNhanbyIdBenhNhanQueryVariables>(GetAllPhieuXacNhanbyIdBenhNhanDocument, options);
+      }
+export function useGetAllPhieuXacNhanbyIdBenhNhanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllPhieuXacNhanbyIdBenhNhanQuery, GetAllPhieuXacNhanbyIdBenhNhanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllPhieuXacNhanbyIdBenhNhanQuery, GetAllPhieuXacNhanbyIdBenhNhanQueryVariables>(GetAllPhieuXacNhanbyIdBenhNhanDocument, options);
+        }
+export function useGetAllPhieuXacNhanbyIdBenhNhanSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllPhieuXacNhanbyIdBenhNhanQuery, GetAllPhieuXacNhanbyIdBenhNhanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllPhieuXacNhanbyIdBenhNhanQuery, GetAllPhieuXacNhanbyIdBenhNhanQueryVariables>(GetAllPhieuXacNhanbyIdBenhNhanDocument, options);
+        }
+export type GetAllPhieuXacNhanbyIdBenhNhanQueryHookResult = ReturnType<typeof useGetAllPhieuXacNhanbyIdBenhNhanQuery>;
+export type GetAllPhieuXacNhanbyIdBenhNhanLazyQueryHookResult = ReturnType<typeof useGetAllPhieuXacNhanbyIdBenhNhanLazyQuery>;
+export type GetAllPhieuXacNhanbyIdBenhNhanSuspenseQueryHookResult = ReturnType<typeof useGetAllPhieuXacNhanbyIdBenhNhanSuspenseQuery>;
+export type GetAllPhieuXacNhanbyIdBenhNhanQueryResult = Apollo.QueryResult<GetAllPhieuXacNhanbyIdBenhNhanQuery, GetAllPhieuXacNhanbyIdBenhNhanQueryVariables>;

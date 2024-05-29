@@ -77,6 +77,7 @@ function Header() {
                                         <Dropdown.Item as={Link} href="/lichsu/hoadon">Hoá Đơn</Dropdown.Item>
                                         <Dropdown.Item as={Link} href="/lichsu/hoadoncls">Hoá Đơn CLS</Dropdown.Item>
                                         <Dropdown.Item as={Link} href="/lichsu/toathuoc">Toa Thuốc</Dropdown.Item>
+                                        <Dropdown.Item as={Link} href="/phieuxacnhan">Phiếu Khám</Dropdown.Item>
                                         <Dropdown.Divider />
                                         <Dropdown.Item onClick={handleLogout}>Đăng Xuất</Dropdown.Item>
                                     </Dropdown.Menu>

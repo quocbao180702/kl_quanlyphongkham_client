@@ -325,3 +325,28 @@ const CountPhieuDatLichbyNgayAndBatDau = gql`
 query CountPhieuDatLichbyNgayAndBatDau($idBacSi: String!, $ngaykham: DateTime!, $batdau: String!){
   CountPhieuDatLichbyNgayAndBatDau(idBacSi: $idBacSi, ngaykham: $ngaykham, batdau: $batdau)
 }`
+
+
+const getAllPhieuXacNhanbyIdBenhNhan = gql`
+query GetAllPhieuXacNhanbyIdBenhNhan($id: String!){
+  getAllPhieuXacNhanbyIdBenhNhan(idBenhNhan: $id){
+    _id
+    benhnhan{
+      hoten
+      ngaysinh
+      gioitinh
+    }
+    phien{
+      batdau
+      ketthuc
+    }
+    phongs{
+      _id
+      tenphong
+    }
+    sothutu
+    ngaytao
+    ngaykham
+    trangthai
+  }
+}`
